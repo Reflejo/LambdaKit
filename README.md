@@ -94,8 +94,17 @@ let composeViewController = MFMailComposeViewController { viewController, result
 composerViewController.setSubject("Test")
 ```
 
-WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
-closures for being called and setting a closure will overwrite the delegate property.
+### MFMessageComposeViewController
+
+MFMessageComposeViewController with closure callback.
+
+Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
+anymore.
+
+```swift
+let composeViewController = MFMessageComposeViewController { viewController, result in println("Done") }
+composerViewController.body = "test sms"
+```
 
 ### NSTimer
 
@@ -106,3 +115,10 @@ NSTimer.scheduledTimerWithTimeInterval(1.0, repeats: false) { timer in
     println("Did something after 1s!")
 }
 ```
+
+**WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+closures for being called and setting a closure will overwrite the delegate property.**
+
+### Authors
+
+Martín Conte Mac Donell [@fz](http://twitter.com/fz)
