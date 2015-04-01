@@ -82,6 +82,21 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
+### UIImagePikcerController
+
+UIImagePickerController with closure callback(s).
+
+```swift
+let picker = UIImagePickerController()
+picker.didCancel = { picker in
+    println("DID CANCEL! \(picker)")
+}
+picker.didFinishPickingMedia = { picker, media in 
+    println("Media: \(media[UIImagePickerControllerEditedImage])")
+}
+self.presentViewController(picker, animated: true, completion: nil)
+```
+
 ### NSObject
 
 Closure wrapper for key-value observation.
