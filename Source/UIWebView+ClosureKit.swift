@@ -32,13 +32,6 @@ public typealias CKDidFinishWithErrorClosure = (UIWebView, NSError) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class ClosuresWrapper {
-    private var shouldStartLoad: CKShouldStartClosure?
-    private var didStartLoad: CKDidStartClosure?
-    private var didFinishLoad: CKDidFinishLoadClosure?
-    private var didFinishWithError: CKDidFinishWithErrorClosure?
-}
-
 /**
 Closure support for UIWebView.
 
@@ -130,4 +123,13 @@ extension UIWebView: UIWebViewDelegate {
     public func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         self.didFinishWithError?(webView, error)
     }
+}
+
+// MARK: - Private classes
+
+private final class ClosuresWrapper {
+    private var shouldStartLoad: CKShouldStartClosure?
+    private var didStartLoad: CKDidStartClosure?
+    private var didFinishLoad: CKDidFinishLoadClosure?
+    private var didFinishWithError: CKDidFinishWithErrorClosure?
 }

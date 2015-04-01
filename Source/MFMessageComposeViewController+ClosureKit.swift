@@ -29,14 +29,6 @@ public typealias CKMessageComposerHandler = (MFMessageComposeViewController, Mes
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class ClosureWrapper {
-    private var handler: CKMessageComposerHandler
-
-    init(handler: CKMessageComposerHandler) {
-        self.handler = handler
-    }
-}
-
 /**
 MFMessageComposeViewController with closure callback.
 
@@ -56,7 +48,7 @@ closures for being called and setting a closure will overwrite the delegate prop
 
 extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate {
 
-    private var closuresWrapper: ClosureWrapper? {
+    private var closureWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
         }
@@ -79,7 +71,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     public convenience init(completion: CKMessageComposerHandler) {
         self.init()
 
-        self.closuresWrapper = ClosureWrapper(handler: completion)
+        self.closureWrapper = ClosureWrapper(handler: completion)
         self.messageComposeDelegate = self
     }
 
@@ -89,6 +81,16 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
         didFinishWithResult result: MessageComposeResult)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
-        self.closuresWrapper?.handler(controller, result)
+        self.closureWrapper?.handler(controller, result)
+    }
+}
+
+// MARK: - Private classes
+
+private final class ClosureWrapper {
+    private var handler: CKMessageComposerHandler
+
+    init(handler: CKMessageComposerHandler) {
+        self.handler = handler
     }
 }

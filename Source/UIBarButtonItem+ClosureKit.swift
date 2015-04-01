@@ -29,14 +29,6 @@ public typealias CKBarButtonHandler = (sender: UIBarButtonItem) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class ClosureWrapper {
-    private var handler: CKBarButtonHandler
-
-    init(handler: CKBarButtonHandler) {
-        self.handler = handler
-    }
-}
-
 /** 
 Closure event initialization for UIBarButtonItem.
 
@@ -81,5 +73,15 @@ extension UIBarButtonItem {
     @objc
     private func handleAction() {
         self.closuresWrapper?.handler(sender: self)
+    }
+}
+
+// MARK: - Private classes
+
+private final class ClosureWrapper {
+    private var handler: CKBarButtonHandler
+
+    init(handler: CKBarButtonHandler) {
+        self.handler = handler
     }
 }

@@ -26,17 +26,6 @@ import Foundation
 
 public typealias CKTimerHandler = (timer: NSTimer) -> Void
 
-private final class TimerClosureWrapper {
-    private var handler: CKTimerHandler
-    private var repeats: Bool
-
-    init(handler: CKTimerHandler, repeats: Bool) {
-        self.handler = handler
-        self.repeats = repeats
-    }
-}
-
-
 /**
 Simple closure implementation on NSTimer scheduling.
 
@@ -44,7 +33,7 @@ Example:
 
 ```swift
 NSTimer.scheduledTimerWithTimeInterval(1.0) { timer in
-    println("Did something after 1s!")
+println("Did something after 1s!")
 }
 ```
 */
@@ -74,5 +63,17 @@ extension NSTimer {
         if let closureWrapper = timer.userInfo as? TimerClosureWrapper {
             closureWrapper.handler(timer: timer)
         }
+    }
+}
+
+// MARK: - Private classes
+
+private final class TimerClosureWrapper {
+    private var handler: CKTimerHandler
+    private var repeats: Bool
+
+    init(handler: CKTimerHandler, repeats: Bool) {
+        self.handler = handler
+        self.repeats = repeats
     }
 }

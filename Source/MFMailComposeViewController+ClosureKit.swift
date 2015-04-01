@@ -29,15 +29,7 @@ public typealias CKMailComposerHandler = (MFMailComposeViewController, MFMailCom
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class ClosureWrapper {
-    private var handler: CKMailComposerHandler
-
-    init(handler: CKMailComposerHandler) {
-        self.handler = handler
-    }
-}
-
-/** 
+/**
 MFMailComposeViewController with closure callback.
 
 Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
@@ -56,7 +48,7 @@ closures for being called and setting a closure will overwrite the delegate prop
 
 extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
-    private var closuresWrapper: ClosureWrapper? {
+    private var closureWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
         }
@@ -79,7 +71,7 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
     public convenience init(completion: CKMailComposerHandler) {
         self.init()
 
-        self.closuresWrapper = ClosureWrapper(handler: completion)
+        self.closureWrapper = ClosureWrapper(handler: completion)
         self.mailComposeDelegate = self
     }
 
@@ -89,6 +81,16 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
         didFinishWithResult result: MFMailComposeResult, error: NSError!)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
-        self.closuresWrapper?.handler(controller, result, error)
+        self.closureWrapper?.handler(controller, result, error)
+    }
+}
+
+// MARK: - Private Classes
+
+private final class ClosureWrapper {
+    private var handler: CKMailComposerHandler
+
+    init(handler: CKMailComposerHandler) {
+        self.handler = handler
     }
 }

@@ -82,6 +82,29 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
+### NSObject
+
+Closure wrapper for key-value observation.
+
+In Mac OS X Panther, Apple introduced an API called "key-value observing."  It implements an 
+[observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), where an object will notify observers of
+any changes in state. NSNotification is a rudimentary form of this design style; KVO, however, allows for the
+observation of any change in key-value state. The API for key-value observation, however, is flawed, ugly, 
+and lengthy.
+
+Like most of the other closure abilities in ClosureKit, observation saves and a bunch of code and a bunch
+of potential bugs.
+
+**WARNING**: Observing using closures and cocoa observers are independant. Meaning that you shouldn't
+add a "traditional" observer and then remove it using this wrapper nor add a closure observer and remove it
+using Cocoa methods.
+
+```swift
+self.observeKeyPath("testing", options: .New | .Old) { newValue, oldValue in
+    println("Property was: \(oldValue), now is: \(newValue)")
+}
+```
+
 ### MFMailComposeViewController
 
 MFMailComposeViewController with closure callback.
