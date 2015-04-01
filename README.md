@@ -89,7 +89,7 @@ webView.didFinishWithError = { webView, error in
 Simple closure implementation on NSTimer scheduling.
 
 ```swift
-NSTimer.scheduledTimerWithTimeInterval(1.0) { timer in
-println("Did something after 1s!")
+NSTimer.scheduledTimerWithTimeInterval(1.0, repeats: false) { timer in
+    println("Did something after 1s!")
 }
 ```
