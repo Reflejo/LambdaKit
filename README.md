@@ -110,8 +110,6 @@ composerViewController.body = "test sms"
 
 Closure event initialization for UIBarButtonItem.
 
-Example:
-
 ```swift
 self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Bordered) { btn in
     println("Button touched!!!!!! \(btn)")
