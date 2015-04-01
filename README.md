@@ -5,9 +5,7 @@ Closures make code clear and readable. You can write self-contained, small snipe
 ## Requirements
 
  * iOS 7.0+
- * Xcode 8.3
-
-ClosureKit can 
+ * Xcode 8.3+
 
 ## Installation
 
