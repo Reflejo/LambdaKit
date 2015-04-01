@@ -82,7 +82,7 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
-### UIImagePikcerController
+### UIImagePickerController
 
 UIImagePickerController with closure callback(s).
 
