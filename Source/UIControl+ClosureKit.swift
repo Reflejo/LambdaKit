@@ -24,17 +24,16 @@
 
 import UIKit
 
-public typealias ControlHandler = (sender: UIControl) -> Void
-public typealias GestureHandler = (sender: UIGestureRecognizer, state: UIGestureRecognizerState) -> Void
+public typealias CKControlHandler = (sender: UIControl) -> Void
 
 // A global var to produce a unique address for the assoc object handle
-private var AssociatedEventHandle: UInt8 = 0
+private var associatedEventHandle: UInt8 = 0
 
 private final class ControlWrapper {
     private var controlEvents: UIControlEvents
-    private var handler: ControlHandler
+    private var handler: CKControlHandler
 
-    init(handler: ControlHandler, events: UIControlEvents) {
+    init(handler: CKControlHandler, events: UIControlEvents) {
         self.handler = handler
         self.controlEvents = events
     }
@@ -61,11 +60,11 @@ extension UIControl {
 
     private var events: [UInt: [ControlWrapper]]? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedEventHandle) as? [UInt: [ControlWrapper]]
+            return objc_getAssociatedObject(self, &associatedEventHandle) as? [UInt: [ControlWrapper]]
         }
 
         set {
-            objc_setAssociatedObject(self, &AssociatedEventHandle, newValue,
+            objc_setAssociatedObject(self, &associatedEventHandle, newValue,
                 objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
@@ -76,7 +75,7 @@ extension UIControl {
     :param: controlEvents A bitmask specifying the control events for which the action message is sent.
     :param: handler A block representing an action message, with an argument for the sender.
     */
-    public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: ControlHandler) {
+    public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: CKControlHandler) {
         let target = ControlWrapper(handler: handler, events: controlEvents)
         self.addTarget(target, action: "invoke:", forControlEvents: controlEvents)
 

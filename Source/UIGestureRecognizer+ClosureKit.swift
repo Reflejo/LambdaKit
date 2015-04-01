@@ -24,13 +24,15 @@
 
 import UIKit
 
+public typealias CKGestureHandler = (sender: UIGestureRecognizer, state: UIGestureRecognizerState) -> Void
+
 // A global var to produce a unique address for the assoc object handle
-private var AssociatedEventHandle: UInt8 = 0
+private var associatedEventHandle: UInt8 = 0
 
 private final class GestureClosureWrapper {
-    private var handler: GestureHandler
+    private var handler: CKGestureHandler
 
-    init(handler: GestureHandler) {
+    init(handler: CKGestureHandler) {
         self.handler = handler
     }
 }
@@ -52,11 +54,11 @@ extension UIGestureRecognizer {
 
     private var closureWrapper: GestureClosureWrapper? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedEventHandle) as? GestureClosureWrapper
+            return objc_getAssociatedObject(self, &associatedEventHandle) as? GestureClosureWrapper
         }
 
         set {
-            objc_setAssociatedObject(self, &AssociatedEventHandle, newValue,
+            objc_setAssociatedObject(self, &associatedEventHandle, newValue,
                 objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
@@ -71,7 +73,7 @@ extension UIGestureRecognizer {
 
     :returns: an initialized instance of a concrete UIGestureRecognizer subclass.
     */
-    public convenience init(handler: GestureHandler) {
+    public convenience init(handler: CKGestureHandler) {
         self.init()
 
         self.closureWrapper = GestureClosureWrapper(handler: handler)

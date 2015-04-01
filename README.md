@@ -63,3 +63,41 @@ let doubleTap = UITapGestureRecognizer { gesture, state in
 doubleTap.numberOfTapsRequired = 2
 self.addGestureRecognizer(doubleTap)
 ```
+
+### UIWebView
+
+Closure support for UIWebView delegate.
+
+Example:
+
+```swift
+let webView = UIWebView()
+webView.shouldStartLoad = { webView, request, type in
+    println("shouldStartLoad: \(request)")
+    return true
+}
+
+webView.didStartLoad = { webView in
+    println("didStartLoad: \(webView)")
+}
+
+webView.didFinishLoad = { webView in
+    println("didFinishLoad \(webView)")
+}
+
+webView.didFinishWithError = { webView, error in
+    println("didFinishWithError \(error)")
+}
+
+
+### NSTimer
+
+Simple closure implementation on NSTimer scheduling.
+
+Example:
+
+```swift
+NSTimer.scheduledTimerWithTimeInterval(1.0) { timer in
+println("Did something after 1s!")
+}
+```
