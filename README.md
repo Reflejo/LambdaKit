@@ -41,8 +41,6 @@ $ pod install
 
 Closure control event handling for UIControl
 
-Example:
-
 ```swift
 let button = UIButton.buttonWithType(.System) as! UIButton
 button.addEventHandler(forControlEvents: .TouchUpInside) { button in
@@ -53,8 +51,6 @@ button.addEventHandler(forControlEvents: .TouchUpInside) { button in
 ### UIGestureRecognizer
 
 Closure functionality for UIGestureRecognizer.
-
-Example: 
 
 ```swift
 let doubleTap = UITapGestureRecognizer { gesture, state in
@@ -67,8 +63,6 @@ self.addGestureRecognizer(doubleTap)
 ### UIWebView
 
 Closure support for UIWebView delegate.
-
-Example:
 
 ```swift
 let webView = UIWebView()
@@ -93,8 +87,6 @@ webView.didFinishWithError = { webView, error in
 ### NSTimer
 
 Simple closure implementation on NSTimer scheduling.
-
-Example:
 
 ```swift
 NSTimer.scheduledTimerWithTimeInterval(1.0) { timer in
