@@ -44,7 +44,7 @@ Example:
 
 ```swift
 NSTimer.scheduledTimerWithTimeInterval(1.0) { timer in
-println("Did something after 1s!")
+    println("Did something after 1s!")
 }
 ```
 */
