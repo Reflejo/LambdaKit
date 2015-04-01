@@ -84,6 +84,21 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
+### MFMailComposeViewController
+
+MFMailComposeViewController with closure callback.
+
+Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
+anymore.
+
+```swift
+let composeViewController = MFMailComposeViewController { viewController, result, type in println("Done") }
+composerViewController.setSubject("Test")
+```
+
+WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+closures for being called and setting a closure will overwrite the delegate property.
+
 ### NSTimer
 
 Simple closure implementation on NSTimer scheduling.
