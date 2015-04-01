@@ -46,7 +46,16 @@ private final class ControlWrapper {
 }
 
 /** 
-Block control event handling for UIControl.
+Closure control event handling for UIControl.
+
+Example:
+
+```swift
+let button = UIButton.buttonWithType(.System) as! UIButton
+button.addEventHandler(forControlEvents: .TouchUpInside) { button in
+    println("Button touched!!! \(button)")
+}
+```
 */
 extension UIControl {
 
