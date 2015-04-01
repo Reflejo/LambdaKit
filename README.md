@@ -106,6 +106,18 @@ let composeViewController = MFMessageComposeViewController { viewController, res
 composerViewController.body = "test sms"
 ```
 
+### UIBarButtonItem
+
+Closure event initialization for UIBarButtonItem.
+
+Example:
+
+```swift
+self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Bordered) { btn in
+    println("Button touched!!!!!! \(btn)")
+}
+```
+
 ### NSTimer
 
 Simple closure implementation on NSTimer scheduling.
