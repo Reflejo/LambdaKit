@@ -119,6 +119,6 @@ NSTimer.scheduledTimerWithTimeInterval(1.0, repeats: false) { timer in
 **WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
 closures for being called and setting a closure will overwrite the delegate property.**
 
-### Authors
+## Authors
 
 Martín Conte Mac Donell [@fz](http://twitter.com/fz)
