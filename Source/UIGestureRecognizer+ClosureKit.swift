@@ -29,15 +29,7 @@ public typealias CKGestureHandler = (sender: UIGestureRecognizer, state: UIGestu
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class GestureClosureWrapper {
-    private var handler: CKGestureHandler
-
-    init(handler: CKGestureHandler) {
-        self.handler = handler
-    }
-}
-
-/** 
+/**
 Closure functionality for UIGestureRecognizer.
 
 Example: 
@@ -83,5 +75,15 @@ extension UIGestureRecognizer {
     @objc
     private func handleAction() {
         self.closureWrapper?.handler(sender: self, state: self.state)
+    }
+}
+
+// MARK: - Private classes
+
+private final class GestureClosureWrapper {
+    private var handler: CKGestureHandler
+
+    init(handler: CKGestureHandler) {
+        self.handler = handler
     }
 }

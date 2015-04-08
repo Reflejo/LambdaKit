@@ -24,8 +24,8 @@
 
 import Foundation
 
-public typealias CKFinishPickingMediaBlockClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
-public typealias CKCancelBlockClosure = (UIImagePickerController) -> Void
+public typealias CKFinishPickingMediaClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
+public typealias CKCancelClosure = (UIImagePickerController) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -67,13 +67,13 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
     }
 
     /// The closure that fires after the receiver finished picking up an image.
-    public var didFinishPickingMedia: CKFinishPickingMediaBlockClosure? {
+    public var didFinishPickingMedia: CKFinishPickingMediaClosure? {
         set { self.closuresWrapper.didFinishPickingMedia = newValue }
         get { return self.closuresWrapper.didFinishPickingMedia }
     }
 
     /// The closure that fires after the user cancels out of picker.
-    public var didCancel: CKCancelBlockClosure? {
+    public var didCancel: CKCancelClosure? {
         set { self.closuresWrapper.didCancel = newValue }
         get { return self.closuresWrapper.didCancel }
     }
@@ -94,6 +94,6 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 // MARK: - Private classes
 
 private final class ClosuresWrapper {
-    private var didFinishPickingMedia: CKFinishPickingMediaBlockClosure?
-    private var didCancel: CKCancelBlockClosure?
+    private var didFinishPickingMedia: CKFinishPickingMediaClosure?
+    private var didCancel: CKCancelClosure?
 }

@@ -93,10 +93,15 @@ extension UIControl {
 
     :param: controlEvents A bitmask specifying the control events for which the handlers will be removed
     */
-    public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents) {
-        if let events = self.events?[controlEvents.rawValue] {
-            for event in events {
-                self.removeTarget(event, action: "invoke:", forControlEvents: controlEvents)
+    public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents? = nil) {
+        for (event, wrappers) in self.events ?? [:] {
+            if controlEvents != nil && (event & controlEvents!.rawValue != controlEvents!.rawValue) {
+                continue
+            }
+
+            self.events?[event] = nil
+            for wrapper in wrappers {
+                self.removeTarget(wrapper, action: "invoke:", forControlEvents: UIControlEvents(event))
             }
         }
     }
