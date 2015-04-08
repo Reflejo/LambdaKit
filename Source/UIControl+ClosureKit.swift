@@ -87,4 +87,17 @@ extension UIControl {
         events[controlEvents.rawValue]!.append(target)
         self.events = events
     }
+
+    /**
+    Remove *all* handlers for a given event.
+
+    :param: controlEvents A bitmask specifying the control events for which the handlers will be removed
+    */
+    public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents) {
+        if let events = self.events?[controlEvents.rawValue] {
+            for event in events {
+                self.removeTarget(event, action: "invoke:", forControlEvents: controlEvents)
+            }
+        }
+    }
 }
