@@ -154,6 +154,16 @@ self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .B
 }
 ```
 
+### CADisplayLink
+
+CADisplayLink closures implementation.
+
+```swift
+CADisplayLink.runFor(5.0) { progress in
+    println("Awesome \(progress * 100)%")
+}
+```
+
 ### NSTimer
 
 Simple closure implementation on NSTimer scheduling.
