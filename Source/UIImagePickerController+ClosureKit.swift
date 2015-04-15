@@ -1,5 +1,5 @@
 //
-//  UIImagePickerController.swift
+//  UIImagePickerController+ClosureKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
