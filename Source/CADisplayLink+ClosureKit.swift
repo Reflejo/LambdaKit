@@ -77,6 +77,7 @@ extension CADisplayLink {
         let elapsed = displayLink.timestamp - displayLink.closureWrapper!.startTime
         let duration = displayLink.closureWrapper!.duration
         if elapsed >= duration {
+            displayLink.closureWrapper = nil
             displayLink.invalidate()
         } else {
             displayLink.closureWrapper?.handler(progress: elapsed / duration)

@@ -82,6 +82,8 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
         self.closureWrapper?.handler(controller, result, error)
+        self.mailComposeDelegate = nil
+        self.closureWrapper = nil
     }
 }
 

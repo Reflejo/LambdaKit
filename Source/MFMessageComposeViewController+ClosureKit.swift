@@ -82,6 +82,8 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
         self.closureWrapper?.handler(controller, result)
+        self.messageComposeDelegate = nil
+        self.closureWrapper = nil
     }
 }
 
