@@ -164,6 +164,26 @@ CADisplayLink.runFor(5.0) { progress in
 }
 ```
 
+### CLLocationManager
+
+Closure implementation of CLLocationManager delegate.
+
+Note that when using startUpdatingLocation(handler) you need to use the counterpart `stopUpdatingLocationHandler` or you'll leak memory.
+
+Example:
+
+```swift
+let locationManager = CLLocationManager()
+locationManager.starUpdatingLocation { location in
+    println("Location: \(location)")
+}
+locationManager.stopUpdatingLocationHandler()
+```
+
+**WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+closures for being called and setting a closure will overwrite the delegate property.**
+
+
 ### NSTimer
 
 Simple closure implementation on NSTimer scheduling.
