@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 public typealias CKFinishPickingMediaClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
 public typealias CKCancelClosure = (UIImagePickerController) -> Void

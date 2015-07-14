@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 public typealias CKBarButtonHandler = (sender: UIBarButtonItem) -> Void
 
