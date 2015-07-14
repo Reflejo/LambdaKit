@@ -82,7 +82,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.delegate = nil
     }
 
-    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let handler = self.closureWrapper?.handler {
             manager.location.map(handler)
         }
