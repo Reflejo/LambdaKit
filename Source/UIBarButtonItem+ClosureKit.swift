@@ -50,7 +50,7 @@ extension UIBarButtonItem {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
