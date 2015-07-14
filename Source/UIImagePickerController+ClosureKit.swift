@@ -63,7 +63,7 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
         set {
             self.delegate = self
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -82,7 +82,7 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
     // MARK: UIImagePickerControllerDelegate implementation
 
     public func imagePickerController(picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
+        didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
         self.closuresWrapper.didFinishPickingMedia?(picker, info)
     }

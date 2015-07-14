@@ -55,7 +55,7 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -77,8 +77,9 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
     // MARK: MFMailComposeViewControllerDelegate implementation
 
-    public func mailComposeController(controller: MFMailComposeViewController!,
-        didFinishWithResult result: MFMailComposeResult, error: NSError!)
+
+    public func mailComposeController(controller: MFMailComposeViewController,
+        didFinishWithResult result: MFMailComposeResult, error: NSError?)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
         self.closureWrapper?.handler(controller, result, error)

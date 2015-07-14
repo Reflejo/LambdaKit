@@ -28,7 +28,7 @@ import UIKit
 public typealias CKShouldStartClosure = (UIWebView, NSURLRequest, UIWebViewNavigationType) -> Bool
 public typealias CKDidStartClosure = (UIWebView) -> Void
 public typealias CKDidFinishLoadClosure = (UIWebView) -> Void
-public typealias CKDidFinishWithErrorClosure = (UIWebView, NSError) -> Void
+public typealias CKDidFinishWithErrorClosure = (UIWebView, NSError?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -77,7 +77,7 @@ extension UIWebView: UIWebViewDelegate {
         set {
             self.delegate = self
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -121,7 +121,7 @@ extension UIWebView: UIWebViewDelegate {
         self.didFinishLoad?(webView)
     }
 
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    public func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         self.didFinishWithError?(webView, error)
     }
 }
