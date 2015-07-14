@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import UIKit
 
 public typealias CKShouldStartClosure = (UIWebView, NSURLRequest, UIWebViewNavigationType) -> Bool
 public typealias CKDidStartClosure = (UIWebView) -> Void

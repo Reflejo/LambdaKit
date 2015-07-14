@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 
 import Foundation
+import QuartzCore
 
 public typealias CKDisplayLinkClosure = (progress: Double) -> Void
 
