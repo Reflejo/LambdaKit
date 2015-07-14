@@ -157,18 +157,21 @@ private final class NSObjectObserver: NSObject {
 
     private func removeAllHandlers(forKeyPath removeKeyPath: String? = nil) -> [String] {
         let allKeyPaths = removeKeyPath != nil ? [removeKeyPath!] : Array(self.handlers.keys)
-        allKeyPaths.map(self.handlers.removeValueForKey)
+
+        for keyPath in allKeyPaths {
+            self.handlers.removeValueForKey(keyPath)
+        }
+
         return allKeyPaths
     }
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
-        change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    private override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
+        change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
         guard let keyPath = keyPath else { return }
-        guard let change = change as? [String: AnyObject] else { return }
 
         for (_, handler) in self.handlers[keyPath] ?? [] {
-            handler(newValue: change[NSKeyValueChangeNewKey], oldValue: change[NSKeyValueChangeOldKey])
+            handler(newValue: change?[NSKeyValueChangeNewKey], oldValue: change?[NSKeyValueChangeOldKey])
         }
     }
 }
