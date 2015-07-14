@@ -55,7 +55,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -77,7 +77,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     // MARK: MFMessageComposeViewControllerDelegate implementation
 
-    public func messageComposeViewController(controller: MFMessageComposeViewController!,
+    public func messageComposeViewController(controller: MFMessageComposeViewController,
         didFinishWithResult result: MessageComposeResult)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)

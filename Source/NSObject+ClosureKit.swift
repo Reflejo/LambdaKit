@@ -63,7 +63,7 @@ extension NSObject {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -141,8 +141,8 @@ private final class NSObjectObserver: NSObject {
     private func removeHandler(forToken removeToken: String) -> String? {
         let allHandlers = self.handlers
         for (keyPath, handlers) in allHandlers {
-            for (i, touple) in enumerate(handlers) {
-                let (token, handler) = touple
+            for (i, tuple) in handlers.enumerate() {
+                let (token, _) = tuple
 
                 // If token is found, remove the handler. If there are not more handlers, remove the observer
                 if token == removeToken {
@@ -161,10 +161,13 @@ private final class NSObjectObserver: NSObject {
         return allKeyPaths
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject,
-        change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>)
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
+        change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
-        for (token, handler) in self.handlers[keyPath] ?? [] {
+        guard let keyPath = keyPath else { return }
+        guard let change = change as? [String: AnyObject] else { return }
+
+        for (_, handler) in self.handlers[keyPath] ?? [] {
             handler(newValue: change[NSKeyValueChangeNewKey], oldValue: change[NSKeyValueChangeOldKey])
         }
     }

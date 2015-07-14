@@ -58,7 +58,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -82,8 +82,10 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.delegate = nil
     }
 
-    public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        self.closureWrapper?.handler(manager.location)
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+        if let handler = self.closureWrapper?.handler {
+            manager.location.map(handler)
+        }
     }
 }
 
