@@ -32,7 +32,7 @@ private var associatedEventHandle: UInt8 = 0
 /**
 CLLocationManager with closure callback.
 
-Note that when using startUpdatingLocation(handler) you need to use the counterpart 
+Note that when using startUpdatingLocation(handler) you need to use the counterpart
 `stopUpdatingLocationHandler` or you'll leak memory.
 
 Example:
@@ -83,8 +83,8 @@ extension CLLocationManager: CLLocationManagerDelegate {
     }
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let handler = self.closureWrapper?.handler {
-            manager.location.map(handler)
+        if let handler = self.closureWrapper?.handler, let location = manager.location {
+            handler(location)
         }
     }
 }
