@@ -30,13 +30,13 @@ public typealias CKObserverHandler = (newValue: AnyObject?, oldValue: AnyObject?
 private var associatedEventHandle: UInt8 = 0
 private var uniqueObserverContext: UInt8 = 0
 
-/** 
+/**
 Closure wrapper for key-value observation.
 
-In Mac OS X Panther, Apple introduced an API called "key-value observing."  It implements an 
+In Mac OS X Panther, Apple introduced an API called "key-value observing."  It implements an
 [observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), where an object will notify observers of
 any changes in state. NSNotification is a rudimentary form of this design style; KVO, however, allows for the
-observation of any change in key-value state. The API for key-value observation, however, is flawed, ugly, 
+observation of any change in key-value state. The API for key-value observation, however, is flawed, ugly,
 and lengthy.
 
 Like most of the other closure abilities in ClosureKit, observation saves and a bunch of code and a bunch
@@ -63,7 +63,7 @@ extension NSObject {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -95,7 +95,7 @@ extension NSObject {
         return token
     }
 
-    /** 
+    /**
     Removes the closure observer with a certain identifier.
 
     :param: token A unique key returned by observeKeyPath or the token given when creating the observer.
@@ -114,8 +114,13 @@ extension NSObject {
     :param: keyPath The property to stop observing, relative to the reciever.
     */
     public func removeAllObservers(forKeyPath keyPath: String? = nil) {
-        let keyPaths = self.observer?.removeAllHandlers(forKeyPath: keyPath)
-        keyPaths?.map { self.removeObserver(self.observer!, forKeyPath: $0, context: &uniqueObserverContext) }
+        guard let observer = self.observer else {
+            return
+        }
+
+        for keyPath in observer.removeAllHandlers(forKeyPath: keyPath) {
+            self.removeObserver(observer, forKeyPath: keyPath, context: &uniqueObserverContext)
+        }
     }
 }
 
@@ -141,8 +146,8 @@ private final class NSObjectObserver: NSObject {
     private func removeHandler(forToken removeToken: String) -> String? {
         let allHandlers = self.handlers
         for (keyPath, handlers) in allHandlers {
-            for (i, touple) in enumerate(handlers) {
-                let (token, handler) = touple
+            for (i, tuple) in handlers.enumerate() {
+                let (token, _) = tuple
 
                 // If token is found, remove the handler. If there are not more handlers, remove the observer
                 if token == removeToken {
@@ -157,15 +162,21 @@ private final class NSObjectObserver: NSObject {
 
     private func removeAllHandlers(forKeyPath removeKeyPath: String? = nil) -> [String] {
         let allKeyPaths = removeKeyPath != nil ? [removeKeyPath!] : Array(self.handlers.keys)
-        allKeyPaths.map(self.handlers.removeValueForKey)
+
+        for keyPath in allKeyPaths {
+            self.handlers.removeValueForKey(keyPath)
+        }
+
         return allKeyPaths
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject,
-        change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>)
+    private override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
+        change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
-        for (token, handler) in self.handlers[keyPath] ?? [] {
-            handler(newValue: change[NSKeyValueChangeNewKey], oldValue: change[NSKeyValueChangeOldKey])
+        guard let keyPath = keyPath else { return }
+
+        for (_, handler) in self.handlers[keyPath] ?? [] {
+            handler(newValue: change?[NSKeyValueChangeNewKey], oldValue: change?[NSKeyValueChangeOldKey])
         }
     }
 }

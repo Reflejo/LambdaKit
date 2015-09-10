@@ -65,7 +65,7 @@ extension UIControl {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -101,7 +101,8 @@ extension UIControl {
 
             self.events?[event] = nil
             for wrapper in wrappers {
-                self.removeTarget(wrapper, action: "invoke:", forControlEvents: UIControlEvents(event))
+                self.removeTarget(wrapper, action: "invoke:",
+                    forControlEvents: UIControlEvents(rawValue: event))
             }
         }
     }
