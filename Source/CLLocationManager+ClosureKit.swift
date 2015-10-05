@@ -1,5 +1,5 @@
 //
-//  MFMailComposeViewController+ClosureKit.swift
+//  CLLocationManager+ClosureKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -78,6 +78,26 @@ extension CLLocationManager: CLLocationManagerDelegate {
     */
     public func stopUpdatingLocationHandler() {
         self.stopUpdatingLocation()
+        self.closureWrapper = nil
+        self.delegate = nil
+    }
+
+    /**
+    Starts monitoring significant location changes and call the given closure for each change.
+
+    :param: completion A closure that will be called passing as the first argument the device's location.
+    */
+    public func startMonitoringSignificantLocationChanges(completion: CKCoreLocationHandler) {
+        self.closureWrapper = ClosureWrapper(handler: completion)
+        self.delegate = self
+        self.startMonitoringSignificantLocationChanges()
+    }
+
+    /**
+    Stops monitoring GPS location changes and cleanup.
+    */
+    public func stopMonitoringSignificantLocationChangesHandler() {
+        self.stopMonitoringSignificantLocationChanges()
         self.closureWrapper = nil
         self.delegate = nil
     }
