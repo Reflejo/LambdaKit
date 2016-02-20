@@ -71,6 +71,9 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startUpdatingLocation()
+        if let location = self.location {
+            completion(location)
+        }
     }
 
     /**
