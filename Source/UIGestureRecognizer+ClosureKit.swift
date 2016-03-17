@@ -69,7 +69,7 @@ extension UIGestureRecognizer {
         self.init()
 
         self.closureWrapper = GestureClosureWrapper(handler: handler)
-        self.addTarget(self, action: "handleAction")
+        self.addTarget(self, action: #selector(UIGestureRecognizer.handleAction))
     }
 
     @objc

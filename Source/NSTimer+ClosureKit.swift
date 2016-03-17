@@ -52,7 +52,8 @@ extension NSTimer {
     class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeats: Bool = false,
         handler: CKTimerHandler) -> NSTimer
     {
-        return NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: "invokeFromTimer:",
+        return NSTimer.scheduledTimerWithTimeInterval(interval, target: self,
+            selector: #selector(NSTimer.invokeFromTimer(_:)),
             userInfo: TimerClosureWrapper(handler: handler, repeats: repeats), repeats: repeats)
     }
 

@@ -77,7 +77,7 @@ extension UIControl {
     */
     public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: CKControlHandler) {
         let target = ControlWrapper(handler: handler, events: controlEvents)
-        self.addTarget(target, action: "invoke:", forControlEvents: controlEvents)
+        self.addTarget(target, action: #selector(ControlWrapper.invoke(_:)), forControlEvents: controlEvents)
 
         var events = self.events ?? [:]
         if events[controlEvents.rawValue] == nil {
@@ -101,7 +101,7 @@ extension UIControl {
 
             self.events?[event] = nil
             for wrapper in wrappers {
-                self.removeTarget(wrapper, action: "invoke:",
+                self.removeTarget(wrapper, action: #selector(ControlWrapper.invoke(_:)),
                     forControlEvents: UIControlEvents(rawValue: event))
             }
         }
