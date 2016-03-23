@@ -64,7 +64,7 @@ extension UIBarButtonItem {
     :returns: an initialized instance of UIBarButtonItem.
     */
     public convenience init(image: UIImage?, style: UIBarButtonItemStyle, handler: CKBarButtonHandler) {
-        self.init(image: image, style: style, target: nil, action: "handleAction")
+        self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))
         self.closuresWrapper = ClosureWrapper(handler: handler)
         self.target = self
     }
