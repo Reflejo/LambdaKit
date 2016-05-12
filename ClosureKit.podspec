@@ -9,6 +9,8 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/Reflejo/ClosureKit.git' }
 
   s.ios.deployment_target = '8.0'
+  s.watchos.deployment_target = '2.0'
 
-  s.source_files = 'Source/*.swift'
+  s.ios.source_files = 'Source/*.swift'
+  s.watchos.source_files = 'Source/NSObject*.swift', 'Source/NSTimer*.swift'
 end
