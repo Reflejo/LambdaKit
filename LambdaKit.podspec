@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/Reflejo/ClosureKit'
   s.social_media_url = 'https://twitter.com/fz'
   s.authors = { 'Martin Conte Mac Donell' => 'reflejo@gmail.com' }
-  s.source = { :git => 'https://github.com/Reflejo/ClosureKit.git' }
+  s.source = { :git => 'https://github.com/Reflejo/ClosureKit.git', :tag => s.version }
 
   s.ios.deployment_target = '8.0'
   s.watchos.deployment_target = '2.0'
