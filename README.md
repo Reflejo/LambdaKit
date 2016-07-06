@@ -1,4 +1,4 @@
-# ClosureKit
+# LambdaKit
 
 Closures make code clear and readable. You can write self-contained, small snipets of code instead of having the logic spread throughout your app,  Cocoa is moving slowly to a block/closure approach but there are still a lot of Cocoa libraries (such as UIKit) that don't support Closures. ClosureKit hopes to facilitate this kind of programming by removing some of the annoying - and, in some cases, impeding - limits on coding with closures.
 
