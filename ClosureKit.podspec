@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'ClosureKit'
-  s.version = '0.0.1'
+  s.version = '0.0.2'
   s.license = 'MIT'
   s.summary = 'Closures on most used UIKit methods'
   s.homepage = 'https://github.com/Reflejo/ClosureKit'

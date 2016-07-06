@@ -49,12 +49,12 @@ extension NSTimer {
 
     :returns: a new NSTimer object, configured according to the specified parameters.
     */
-    class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeats: Bool = false,
+    class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeated: Bool = false,
         handler: CKTimerHandler) -> NSTimer
     {
         return NSTimer.scheduledTimerWithTimeInterval(interval, target: self,
             selector: #selector(NSTimer.invokeFromTimer(_:)),
-            userInfo: TimerClosureWrapper(handler: handler, repeats: repeats), repeats: repeats)
+            userInfo: TimerClosureWrapper(handler: handler, repeats: repeated), repeats: repeated)
     }
 
     // MARK: Private methods
