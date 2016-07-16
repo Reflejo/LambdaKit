@@ -1,6 +1,6 @@
 # LambdaKit
 
-Closures make code clear and readable. You can write self-contained, small snipets of code instead of having the logic spread throughout your app,  Cocoa is moving slowly to a block/closure approach but there are still a lot of Cocoa libraries (such as UIKit) that don't support Closures. ClosureKit hopes to facilitate this kind of programming by removing some of the annoying - and, in some cases, impeding - limits on coding with closures.
+Closures make code clear and readable. You can write self-contained, small snipets of code instead of having the logic spread throughout your app,  Cocoa is moving slowly to a block/closure approach but there are still a lot of Cocoa libraries (such as UIKit) that don't support Closures. LambdaKit hopes to facilitate this kind of programming by removing some of the annoying - and, in some cases, impeding - limits on coding with closures.
 
 ## Requirements
 
@@ -17,14 +17,14 @@ CocoaPods 0.36 adds supports for Swift and embedded frameworks. You can install 
 $ gem install cocoapods
 ```
 
-To integrate ClosureKit into your Xcode project using CocoaPods, specify it in your `Podfile`:
+To integrate LambdaKit into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'ClosureKit'
+pod 'LambdaKit'
 ```
 
 Then, run the following command:
@@ -107,7 +107,7 @@ any changes in state. NSNotification is a rudimentary form of this design style;
 observation of any change in key-value state. The API for key-value observation, however, is flawed, ugly, 
 and lengthy.
 
-Like most of the other closure abilities in ClosureKit, observation saves and a bunch of code and a bunch
+Like most of the other closure abilities in LambdaKit, observation saves and a bunch of code and a bunch
 of potential bugs.
 
 **WARNING**: Observing using closures and cocoa observers are independant. Meaning that you shouldn't
