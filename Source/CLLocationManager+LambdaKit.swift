@@ -1,5 +1,5 @@
 //
-//  CLLocationManager+ClosureKit.swift
+//  CLLocationManager+LambdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,7 +24,7 @@
 
 import CoreLocation
 
-public typealias CKCoreLocationHandler = CLLocation -> Void
+public typealias LKCoreLocationHandler = CLLocation -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -65,9 +65,9 @@ extension CLLocationManager: CLLocationManagerDelegate {
     /**
     Starts monitoring GPS location changes and call the given closure for each change.
 
-    :param: completion A closure that will be called passing as the first argument the device's location.
+    - parameter completion: A closure that will be called passing as the first argument the device's location.
     */
-    public func startUpdatingLocation(completion: CKCoreLocationHandler) {
+    public func startUpdatingLocation(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startUpdatingLocation()
@@ -86,11 +86,27 @@ extension CLLocationManager: CLLocationManagerDelegate {
     }
 
     /**
+    Request the current location which is reported in the completion handler
+
+    - parameter completion: A closure that will be called with the device's current location.
+    */
+    @available(iOS 9, watchOS 2, *)
+    public func requestLocation(completion: LKCoreLocationHandler) {
+        self.closureWrapper = ClosureWrapper(handler: completion)
+        self.delegate = self
+        self.requestLocation()
+        if let location = self.location {
+            completion(location)
+        }
+    }
+
+#if !os(watchOS)
+    /**
     Starts monitoring significant location changes and call the given closure for each change.
 
     :param: completion A closure that will be called passing as the first argument the device's location.
     */
-    public func startMonitoringSignificantLocationChanges(completion: CKCoreLocationHandler) {
+    public func startMonitoringSignificantLocationChanges(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startMonitoringSignificantLocationChanges()
@@ -104,6 +120,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.closureWrapper = nil
         self.delegate = nil
     }
+#endif
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let handler = self.closureWrapper?.handler, let location = manager.location {
@@ -115,9 +132,9 @@ extension CLLocationManager: CLLocationManagerDelegate {
 // MARK: - Private Classes
 
 private final class ClosureWrapper {
-    private var handler: CKCoreLocationHandler
+    private var handler: LKCoreLocationHandler
 
-    init(handler: CKCoreLocationHandler) {
+    init(handler: LKCoreLocationHandler) {
         self.handler = handler
     }
 }

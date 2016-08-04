@@ -1,5 +1,5 @@
 //
-//  UIImagePickerController+ClosureKit.swift
+//  UIImagePickerController+LamdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -25,8 +25,8 @@
 import Foundation
 import UIKit
 
-public typealias CKFinishPickingMediaClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
-public typealias CKCancelClosure = (UIImagePickerController) -> Void
+public typealias LKFinishPickingMediaClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
+public typealias LKCancelClosure = (UIImagePickerController) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -68,13 +68,13 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
     }
 
     /// The closure that fires after the receiver finished picking up an image.
-    public var didFinishPickingMedia: CKFinishPickingMediaClosure? {
+    public var didFinishPickingMedia: LKFinishPickingMediaClosure? {
         set { self.closuresWrapper.didFinishPickingMedia = newValue }
         get { return self.closuresWrapper.didFinishPickingMedia }
     }
 
     /// The closure that fires after the user cancels out of picker.
-    public var didCancel: CKCancelClosure? {
+    public var didCancel: LKCancelClosure? {
         set { self.closuresWrapper.didCancel = newValue }
         get { return self.closuresWrapper.didCancel }
     }
@@ -95,6 +95,6 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 // MARK: - Private classes
 
 private final class ClosuresWrapper {
-    private var didFinishPickingMedia: CKFinishPickingMediaClosure?
-    private var didCancel: CKCancelClosure?
+    private var didFinishPickingMedia: LKFinishPickingMediaClosure?
+    private var didCancel: LKCancelClosure?
 }

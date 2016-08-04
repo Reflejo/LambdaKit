@@ -1,5 +1,5 @@
 //
-//  UIGestureRecognizer+ClosureKit.swift
+//  UIBarButtonItem+LamdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -22,31 +22,30 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+import Foundation
 import UIKit
 
-public typealias CKGestureHandler = (sender: UIGestureRecognizer, state: UIGestureRecognizerState) -> Void
+public typealias LKBarButtonHandler = (sender: UIBarButtonItem) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-Closure functionality for UIGestureRecognizer.
+/** 
+Closure event initialization for UIBarButtonItem.
 
-Example: 
+Example:
 
 ```swift
-let doubleTap = UITapGestureRecognizer { gesture, state in
-    println("Double tap!")
+self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Bordered) { btn in
+    println("Button touched!!!!!! \(btn)")
 }
-doubleTap.numberOfTapsRequired = 2
-self.addGestureRecognizer(doubleTap)
 ```
 */
-extension UIGestureRecognizer {
+extension UIBarButtonItem {
 
-    private var closureWrapper: GestureClosureWrapper? {
+    private var closuresWrapper: ClosureWrapper? {
         get {
-            return objc_getAssociatedObject(self, &associatedEventHandle) as? GestureClosureWrapper
+            return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
         }
 
         set {
@@ -56,34 +55,34 @@ extension UIGestureRecognizer {
     }
 
     /**
-    Initializes an allocated gesture recognizer that will call the given closure when the gesture is 
-    recognized.
+    Initializes an UIBarButtonItem that will call the given closure when the button is touched.
 
-    An alternative to the designated initializer.
+    :param: image   The item’s image. If nil an image is not displayed.
+    :param: style   The style of the item. One of the constants defined in UIBarButtonItemStyle.
+    :param: handler The closure which handles button touches.
 
-    :param: handler The closure which handles an executed gesture.
-
-    :returns: an initialized instance of a concrete UIGestureRecognizer subclass.
+    :returns: an initialized instance of UIBarButtonItem.
     */
-    public convenience init(handler: CKGestureHandler) {
-        self.init()
-
-        self.closureWrapper = GestureClosureWrapper(handler: handler)
-        self.addTarget(self, action: #selector(UIGestureRecognizer.handleAction))
+    public convenience init(image: UIImage?, style: UIBarButtonItemStyle, handler: LKBarButtonHandler) {
+        self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))
+        self.closuresWrapper = ClosureWrapper(handler: handler)
+        self.target = self
     }
+
+    // MARK: Private methods
 
     @objc
     private func handleAction() {
-        self.closureWrapper?.handler(sender: self, state: self.state)
+        self.closuresWrapper?.handler(sender: self)
     }
 }
 
 // MARK: - Private classes
 
-private final class GestureClosureWrapper {
-    private var handler: CKGestureHandler
+private final class ClosureWrapper {
+    private var handler: LKBarButtonHandler
 
-    init(handler: CKGestureHandler) {
+    init(handler: LKBarButtonHandler) {
         self.handler = handler
     }
 }

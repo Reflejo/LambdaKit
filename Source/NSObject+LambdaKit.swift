@@ -1,5 +1,5 @@
 //
-//  NSObject+ClosureKit.swift
+//  NSObject+LambdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,7 +24,7 @@
 
 import Foundation
 
-public typealias CKObserverHandler = (newValue: AnyObject?, oldValue: AnyObject?) -> Void
+public typealias LKObserverHandler = (newValue: AnyObject?, oldValue: AnyObject?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -79,7 +79,7 @@ extension NSObject {
     :returns: a globally unique identifier for removing observation with removeObserver(token:).
     */
     public func observeKeyPath(keyPath: String, options: NSKeyValueObservingOptions = .New,
-        token: String? = nil, handler: CKObserverHandler) -> String
+        token: String? = nil, handler: LKObserverHandler) -> String
     {
         if self.observer == nil {
             self.observer = NSObjectObserver()
@@ -128,13 +128,13 @@ extension NSObject {
 
 private final class NSObjectObserver: NSObject {
 
-    private var handlers: [String: [(token: String, handler: CKObserverHandler)]] = [:]
+    private var handlers: [String: [(token: String, handler: LKObserverHandler)]] = [:]
 
     private func hasObservers(forKeyPath keyPath: String) -> Bool {
         return handlers[keyPath]?.count > 0
     }
 
-    private func addHandler(handler: CKObserverHandler, forKeyPath keyPath: String, token: String) {
+    private func addHandler(handler: LKObserverHandler, forKeyPath keyPath: String, token: String) {
         if self.handlers[keyPath] == nil {
             self.handlers[keyPath] = []
         }

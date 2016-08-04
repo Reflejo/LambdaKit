@@ -1,5 +1,5 @@
 //
-//  MFMailComposeViewController+ClosureKit.swift
+//  MFMailComposeViewController+LamdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,7 +24,7 @@
 
 import MessageUI
 
-public typealias CKMailComposerHandler = (MFMailComposeViewController, MFMailComposeResult, NSError?) -> Void
+public typealias LKMailComposerHandler = (MFMailComposeViewController, MFMailComposeResult, NSError?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -68,7 +68,7 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
     :returns: an initialized instance of MFMailComposeViewController.
     */
-    public convenience init(completion: CKMailComposerHandler) {
+    public convenience init(completion: LKMailComposerHandler) {
         self.init()
 
         self.closureWrapper = ClosureWrapper(handler: completion)
@@ -91,9 +91,9 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 // MARK: - Private Classes
 
 private final class ClosureWrapper {
-    private var handler: CKMailComposerHandler
+    private var handler: LKMailComposerHandler
 
-    init(handler: CKMailComposerHandler) {
+    init(handler: LKMailComposerHandler) {
         self.handler = handler
     }
 }

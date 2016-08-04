@@ -1,5 +1,5 @@
 //
-//  AVSpeechSynthesizer+ClosureKit.swift
+//  AVSpeechSynthesizer+LambdaKit.swift
 //  Created by Matias Pequeno on 9/23/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -25,12 +25,12 @@
 import Foundation
 import AVFoundation
 
-public typealias CKDidStartSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
-public typealias CKDidFinishSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
-public typealias CKDidPauseSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
-public typealias CKDidContinueSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
-public typealias CKDidCancelSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
-public typealias CKWillSpeakRangeOfSpeechString = (AVSpeechSynthesizer, NSRange, AVSpeechUtterance) -> Void
+public typealias LKDidStartSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
+public typealias LKDidFinishSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
+public typealias LKDidPauseSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
+public typealias LKDidContinueSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
+public typealias LKDidCancelSpeechUtterance = (AVSpeechSynthesizer, AVSpeechUtterance) -> Void
+public typealias LKWillSpeakRangeOfSpeechString = (AVSpeechSynthesizer, NSRange, AVSpeechUtterance) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -68,37 +68,37 @@ extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
     }
 
     /// The closure that fires when the synthesizer has begun speaking an utterance.
-    public var didStartSpeechUtterance: CKDidStartSpeechUtterance? {
+    public var didStartSpeechUtterance: LKDidStartSpeechUtterance? {
         set { self.closuresWrapper.didStartSpeechUtterance = newValue }
         get { return self.closuresWrapper.didStartSpeechUtterance }
     }
 
     /// The closure that fires when the synthesizer has finished speaking an utterance.
-    public var didFinishSpeechUtterance: CKDidFinishSpeechUtterance? {
+    public var didFinishSpeechUtterance: LKDidFinishSpeechUtterance? {
         set { self.closuresWrapper.didFinishSpeechUtterance = newValue }
         get { return self.closuresWrapper.didFinishSpeechUtterance }
     }
 
     /// The closure that fires when the synthesizer has paused while speaking an utterance.
-    public var didPauseUtterance: CKDidPauseSpeechUtterance? {
+    public var didPauseUtterance: LKDidPauseSpeechUtterance? {
         set { self.closuresWrapper.didPauseSpeechUtterance = newValue }
         get { return self.closuresWrapper.didPauseSpeechUtterance }
     }
 
     /// The closure that fires when the synthesizer has resumed speaking an utterance after being paused.
-    public var didContinueSpeechUtterance: CKDidContinueSpeechUtterance? {
+    public var didContinueSpeechUtterance: LKDidContinueSpeechUtterance? {
         set { self.closuresWrapper.didContinueSpeechUtterance = newValue }
         get { return self.closuresWrapper.didContinueSpeechUtterance }
     }
 
     /// The closure that fires when the synthesizer has canceled speaking an utterance.
-    public var didCancelSpeechUtterance: CKDidCancelSpeechUtterance? {
+    public var didCancelSpeechUtterance: LKDidCancelSpeechUtterance? {
         set { self.closuresWrapper.didCancelSpeechUtterance = newValue }
         get { return self.closuresWrapper.didCancelSpeechUtterance }
     }
 
     /// The closure that fires when the synthesizer is about to speak a portion of an utterance’s text.
-    public var willSpeakRangeOfSpeechString: CKWillSpeakRangeOfSpeechString? {
+    public var willSpeakRangeOfSpeechString: LKWillSpeakRangeOfSpeechString? {
         set { self.closuresWrapper.willSpeakRangeOfSpeechString = newValue }
         get { return self.closuresWrapper.willSpeakRangeOfSpeechString }
     }
@@ -111,7 +111,7 @@ extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
                            synthesizer is paused or canceled.
     */
     public func speakUtterance(utterance: AVSpeechUtterance,
-        didFinishUtterance closure: CKDidFinishSpeechUtterance)
+        didFinishUtterance closure: LKDidFinishSpeechUtterance)
     {
         self.didFinishSpeechUtterance = closure
         self.speakUtterance(utterance)
@@ -157,10 +157,10 @@ extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
 }
 
 private final class ClosuresWrapper {
-    private var didStartSpeechUtterance: CKDidStartSpeechUtterance?
-    private var didFinishSpeechUtterance: CKDidFinishSpeechUtterance?
-    private var didPauseSpeechUtterance: CKDidPauseSpeechUtterance?
-    private var didContinueSpeechUtterance: CKDidContinueSpeechUtterance?
-    private var didCancelSpeechUtterance: CKDidCancelSpeechUtterance?
-    private var willSpeakRangeOfSpeechString: CKWillSpeakRangeOfSpeechString?
+    private var didStartSpeechUtterance: LKDidStartSpeechUtterance?
+    private var didFinishSpeechUtterance: LKDidFinishSpeechUtterance?
+    private var didPauseSpeechUtterance: LKDidPauseSpeechUtterance?
+    private var didContinueSpeechUtterance: LKDidContinueSpeechUtterance?
+    private var didCancelSpeechUtterance: LKDidCancelSpeechUtterance?
+    private var willSpeakRangeOfSpeechString: LKWillSpeakRangeOfSpeechString?
 }
