@@ -1,11 +1,11 @@
 # LambdaKit
 
-Closures make code clear and readable. You can write self-contained, small snipets of code instead of having the logic spread throughout your app,  Cocoa is moving slowly to a block/closure approach but there are still a lot of Cocoa libraries (such as UIKit) that don't support Closures. LambdaKit hopes to facilitate this kind of programming by removing some of the annoying - and, in some cases, impeding - limits on coding with closures.
+Closures make code clear and readable. You can write self-contained, small snippets of code instead of having the logic spread throughout your app,  Cocoa is moving slowly to a block/closure approach but there are still a lot of Cocoa libraries (such as UIKit) that don't support Closures. LambdaKit hopes to facilitate this kind of programming by removing some of the annoying - and, in some cases, impeding - limits on coding with closures.
 
 ## Requirements
 
- * iOS 7.0+
- * Xcode 8.3+
+ * iOS 8.0+
+ * Xcode 7.3
 
 ## Installation
 
