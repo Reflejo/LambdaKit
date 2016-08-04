@@ -1,5 +1,5 @@
 //
-//  CADisplayLink+ClosureKit.swift
+//  CADisplayLink+LambdaKit.swift
 //  Created by Martin Conte Mac Donell on 4/7/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -25,7 +25,7 @@
 import Foundation
 import QuartzCore
 
-public typealias CKDisplayLinkClosure = (progress: Double) -> Void
+public typealias LKDisplayLinkClosure = (progress: Double) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -60,7 +60,7 @@ extension CADisplayLink {
     :param: duration The duration in seconds.
     :param: handler  The closure to execute for every tick
     */
-    public class func runFor(duration: CFTimeInterval, handler: CKDisplayLinkClosure) {
+    public class func runFor(duration: CFTimeInterval, handler: LKDisplayLinkClosure) {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))
 
         displayLink.closureWrapper = ClosuresWrapper(handler: handler, duration: duration)
@@ -89,11 +89,11 @@ extension CADisplayLink {
 // MARK: - Private classes
 
 private final class ClosuresWrapper {
-    private var handler: CKDisplayLinkClosure
+    private var handler: LKDisplayLinkClosure
     private var duration: CFTimeInterval
     private var startTime: CFTimeInterval = 0.0
 
-    init(handler: CKDisplayLinkClosure, duration: CFTimeInterval) {
+    init(handler: LKDisplayLinkClosure, duration: CFTimeInterval) {
         self.handler = handler
         self.duration = duration
     }

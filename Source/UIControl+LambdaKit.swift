@@ -1,5 +1,5 @@
 //
-//  UIControl+ClosureKit.swift
+//  UIControl+LamdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,16 +24,16 @@
 
 import UIKit
 
-public typealias CKControlHandler = (sender: UIControl) -> Void
+public typealias LKControlHandler = (sender: UIControl) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
 private final class ControlWrapper {
     private var controlEvents: UIControlEvents
-    private var handler: CKControlHandler
+    private var handler: LKControlHandler
 
-    init(handler: CKControlHandler, events: UIControlEvents) {
+    init(handler: LKControlHandler, events: UIControlEvents) {
         self.handler = handler
         self.controlEvents = events
     }
@@ -75,7 +75,7 @@ extension UIControl {
     :param: controlEvents A bitmask specifying the control events for which the action message is sent.
     :param: handler A block representing an action message, with an argument for the sender.
     */
-    public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: CKControlHandler) {
+    public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: LKControlHandler) {
         let target = ControlWrapper(handler: handler, events: controlEvents)
         self.addTarget(target, action: #selector(ControlWrapper.invoke(_:)), forControlEvents: controlEvents)
 

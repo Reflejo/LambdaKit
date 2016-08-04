@@ -1,5 +1,5 @@
 //
-//  MFMessageComposeViewController+ClosureKit.swift
+//  MFMessageComposeViewController+LambdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,7 +24,7 @@
 
 import MessageUI
 
-public typealias CKMessageComposerHandler = (MFMessageComposeViewController, MessageComposeResult) -> Void
+public typealias LKMessageComposerHandler = (MFMessageComposeViewController, MessageComposeResult) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -68,7 +68,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     :returns: an initialized instance of MFMessageComposeViewController.
     */
-    public convenience init(completion: CKMessageComposerHandler) {
+    public convenience init(completion: LKMessageComposerHandler) {
         self.init()
 
         self.closureWrapper = ClosureWrapper(handler: completion)
@@ -77,7 +77,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     // MARK: MFMessageComposeViewControllerDelegate implementation
 
-    public func messageComposeViewController(controller: MFMessageComposeViewController,
+    private func messageComposeViewController(controller: MFMessageComposeViewController,
         didFinishWithResult result: MessageComposeResult)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
@@ -90,9 +90,9 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 // MARK: - Private classes
 
 private final class ClosureWrapper {
-    private var handler: CKMessageComposerHandler
+    private var handler: LKMessageComposerHandler
 
-    init(handler: CKMessageComposerHandler) {
+    init(handler: LKMessageComposerHandler) {
         self.handler = handler
     }
 }

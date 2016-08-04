@@ -1,5 +1,5 @@
 //
-//  UIGestureRecognizer+ClosureKit.swift
+//  NSTimer+LambdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -24,7 +24,7 @@
 
 import Foundation
 
-public typealias CKTimerHandler = (timer: NSTimer) -> Void
+public typealias LKTimerHandler = (timer: NSTimer) -> Void
 
 /**
 Simple closure implementation on NSTimer scheduling.
@@ -50,7 +50,7 @@ extension NSTimer {
     :returns: a new NSTimer object, configured according to the specified parameters.
     */
     class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeated: Bool = false,
-        handler: CKTimerHandler) -> NSTimer
+        handler: LKTimerHandler) -> NSTimer
     {
         return NSTimer.scheduledTimerWithTimeInterval(interval, target: self,
             selector: #selector(NSTimer.invokeFromTimer(_:)),
@@ -70,10 +70,10 @@ extension NSTimer {
 // MARK: - Private classes
 
 private final class TimerClosureWrapper {
-    private var handler: CKTimerHandler
+    private var handler: LKTimerHandler
     private var repeats: Bool
 
-    init(handler: CKTimerHandler, repeats: Bool) {
+    init(handler: LKTimerHandler, repeats: Bool) {
         self.handler = handler
         self.repeats = repeats
     }

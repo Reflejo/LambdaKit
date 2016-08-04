@@ -1,5 +1,5 @@
 //
-//  AVAudioPlayer+ClosureKit.swift
+//  AVAudioPlayer+LambdaKit.swift
 //  Created by Matias Pequeno on 9/23/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -25,8 +25,8 @@
 import Foundation
 import AVFoundation
 
-public typealias CKDidFinishPlayingClosure = (AVAudioPlayer, Bool) -> Void
-public typealias CKDecodeErrorDidOccurClosure = (AVAudioPlayer, NSError?) -> Void
+public typealias LKDidFinishPlayingClosure = (AVAudioPlayer, Bool) -> Void
+public typealias LKDecodeErrorDidOccurClosure = (AVAudioPlayer, NSError?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -65,13 +65,13 @@ extension AVAudioPlayer: AVAudioPlayerDelegate {
 
     /// The closure that fires when a sound has finished playing. This method is NOT called if the player is
     /// stopped due to an interruption.
-    public var didFinishPlaying: CKDidFinishPlayingClosure? {
+    public var didFinishPlaying: LKDidFinishPlayingClosure? {
         set { self.closuresWrapper.didFinishPlaying = newValue }
         get { return self.closuresWrapper.didFinishPlaying }
     }
 
     /// The closure that fires if an error occurs while decoding it will be reported to the delegate.
-    public var decodeErrorDidOccur: CKDecodeErrorDidOccurClosure? {
+    public var decodeErrorDidOccur: LKDecodeErrorDidOccurClosure? {
         set { self.closuresWrapper.decodeErrorDidOccur = newValue }
         get { return self.closuresWrapper.decodeErrorDidOccur }
     }
@@ -84,7 +84,7 @@ extension AVAudioPlayer: AVAudioPlayerDelegate {
 
     - returns: Returns `true` on success, or `false` on failure.
     */
-    public func play(didFinishPlaying closure: CKDidFinishPlayingClosure) -> Bool {
+    public func play(didFinishPlaying closure: LKDidFinishPlayingClosure) -> Bool {
         self.didFinishPlaying = closure
         return self.play()
     }
@@ -101,6 +101,6 @@ extension AVAudioPlayer: AVAudioPlayerDelegate {
 }
 
 private final class ClosuresWrapper {
-    private var didFinishPlaying: CKDidFinishPlayingClosure?
-    private var decodeErrorDidOccur: CKDecodeErrorDidOccurClosure?
+    private var didFinishPlaying: LKDidFinishPlayingClosure?
+    private var decodeErrorDidOccur: LKDecodeErrorDidOccurClosure?
 }

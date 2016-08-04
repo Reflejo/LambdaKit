@@ -1,5 +1,5 @@
 //
-//  UIWebView+ClosureKit.swift
+//  UIWebView+LamdaKit.swift
 //  Created by Martin Conte Mac Donell on 3/31/15.
 //
 //  Copyright (c) 2015 Lyft (http://lyft.com)
@@ -25,10 +25,10 @@
 import Foundation
 import UIKit
 
-public typealias CKShouldStartClosure = (UIWebView, NSURLRequest, UIWebViewNavigationType) -> Bool
-public typealias CKDidStartClosure = (UIWebView) -> Void
-public typealias CKDidFinishLoadClosure = (UIWebView) -> Void
-public typealias CKDidFinishWithErrorClosure = (UIWebView, NSError?) -> Void
+public typealias LKShouldStartClosure = (UIWebView, NSURLRequest, UIWebViewNavigationType) -> Bool
+public typealias LKDidStartClosure = (UIWebView) -> Void
+public typealias LKDidFinishLoadClosure = (UIWebView) -> Void
+public typealias LKDidFinishWithErrorClosure = (UIWebView, NSError?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -82,25 +82,25 @@ extension UIWebView: UIWebViewDelegate {
     }
 
     /// The closure to be decide whether a URL will be loaded.
-    public var shouldStartLoad: CKShouldStartClosure? {
+    public var shouldStartLoad: LKShouldStartClosure? {
         set { self.closuresWrapper.shouldStartLoad = newValue }
         get { return self.closuresWrapper.shouldStartLoad }
     }
 
     /// The closure that is fired when the web view starts loading.
-    public var didStartLoad: CKDidStartClosure? {
+    public var didStartLoad: LKDidStartClosure? {
         set { self.closuresWrapper.didStartLoad = newValue }
         get { return self.closuresWrapper.didStartLoad }
     }
 
     /// The closure that is fired when the web view finishes loading.
-    public var didFinishLoad: CKDidFinishLoadClosure? {
+    public var didFinishLoad: LKDidFinishLoadClosure? {
         set { self.closuresWrapper.didFinishLoad = newValue }
         get { return self.closuresWrapper.didFinishLoad }
     }
 
     /// The closure that is fired when the web view stops loading due to an error.
-    public var didFinishWithError: CKDidFinishWithErrorClosure? {
+    public var didFinishWithError: LKDidFinishWithErrorClosure? {
         set { self.closuresWrapper.didFinishWithError = newValue }
         get { return self.closuresWrapper.didFinishWithError }
     }
@@ -129,8 +129,8 @@ extension UIWebView: UIWebViewDelegate {
 // MARK: - Private classes
 
 private final class ClosuresWrapper {
-    private var shouldStartLoad: CKShouldStartClosure?
-    private var didStartLoad: CKDidStartClosure?
-    private var didFinishLoad: CKDidFinishLoadClosure?
-    private var didFinishWithError: CKDidFinishWithErrorClosure?
+    private var shouldStartLoad: LKShouldStartClosure?
+    private var didStartLoad: LKDidStartClosure?
+    private var didFinishLoad: LKDidFinishLoadClosure?
+    private var didFinishWithError: LKDidFinishWithErrorClosure?
 }
