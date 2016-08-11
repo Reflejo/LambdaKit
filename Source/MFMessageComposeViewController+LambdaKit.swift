@@ -77,7 +77,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     // MARK: MFMessageComposeViewControllerDelegate implementation
 
-    private func messageComposeViewController(controller: MFMessageComposeViewController,
+    public func messageComposeViewController(controller: MFMessageComposeViewController,
         didFinishWithResult result: MessageComposeResult)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)

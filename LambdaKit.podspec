@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '2.0'
 
   s.ios.source_files = 'Source/*.swift'
-  s.watchos.source_files = 'Source/NSObject*.swift', 'Source/NSTimer*.swift'
+  s.watchos.source_files = 'Source/NSObject*.swift', 'Source/NSTimer*.swift', 'Source/CLLocationManager*.swift'
 end

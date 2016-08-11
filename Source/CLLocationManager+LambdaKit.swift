@@ -24,7 +24,7 @@
 
 import CoreLocation
 
-public typealias LKCoreLocationHandler = CLLocation -> Void
+public typealias LKCoreLocationHandler = LKLocationOrError -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -49,6 +49,17 @@ WARNING: You cannot use closures *and* set a delegate at the same time. Setting 
 closures for being called and setting a closure will overwrite the delegate property.
 */
 
+/**
+ An enum that will represent either a location or an error with corresponding associated values.
+
+ - Location A location as reported by Core Location.
+ - Error    An error coming from Core Location, for example when location service usage is denied.
+ */
+public enum LKLocationOrError {
+    case Location(CLLocation)
+    case Error(NSError)
+}
+
 extension CLLocationManager: CLLocationManagerDelegate {
 
     private var closureWrapper: ClosureWrapper? {
@@ -72,7 +83,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.delegate = self
         self.startUpdatingLocation()
         if let location = self.location {
-            completion(location)
+            completion(.Location(location))
         }
     }
 
@@ -96,7 +107,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
         self.delegate = self
         self.requestLocation()
         if let location = self.location {
-            completion(location)
+            completion(.Location(location))
         }
     }
 
@@ -124,8 +135,12 @@ extension CLLocationManager: CLLocationManagerDelegate {
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let handler = self.closureWrapper?.handler, let location = manager.location {
-            handler(location)
+            handler(.Location(location))
         }
+    }
+
+    public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        self.closureWrapper?.handler(.Error(error))
     }
 }
 
