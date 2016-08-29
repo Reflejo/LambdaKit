@@ -57,11 +57,11 @@ extension UIBarButtonItem {
     /**
     Initializes an UIBarButtonItem that will call the given closure when the button is touched.
 
-    :param: image   The item’s image. If nil an image is not displayed.
-    :param: style   The style of the item. One of the constants defined in UIBarButtonItemStyle.
-    :param: handler The closure which handles button touches.
+    - parameter image:   The item’s image. If nil an image is not displayed.
+    - parameter style:   The style of the item. One of the constants defined in UIBarButtonItemStyle.
+    - parameter handler: The closure which handles button touches.
 
-    :returns: an initialized instance of UIBarButtonItem.
+    - returns: an initialized instance of UIBarButtonItem.
     */
     public convenience init(image: UIImage?, style: UIBarButtonItemStyle, handler: LKBarButtonHandler) {
         self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))

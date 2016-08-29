@@ -42,12 +42,12 @@ extension NSTimer {
     /**
     Creates and returns a block-based NSTimer object and schedules it on the current run loop.
 
-    :param: interval  The number of seconds between firings of the timer.
-    :param: inRepeats If true, the timer will repeatedly reschedule itself until invalidated. If false,
-    the timer will be invalidated after it fires.
-    :param: handler   The closure that the NSTimer fires.
+    - parameter interval:  The number of seconds between firings of the timer.
+    - parameter inRepeats: If true, the timer will repeatedly reschedule itself until invalidated. If false,
+                           the timer will be invalidated after it fires.
+    - parameter handler:   The closure that the NSTimer fires.
 
-    :returns: a new NSTimer object, configured according to the specified parameters.
+    - returns: a new NSTimer object, configured according to the specified parameters.
     */
     class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeated: Bool = false,
         handler: LKTimerHandler) -> NSTimer

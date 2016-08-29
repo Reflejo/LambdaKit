@@ -64,9 +64,9 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
     of the delegate. This closure is an analog for the
     mailComposeController:didFinishWithResult:error: method of MFMailComposeViewControllerDelegate.
     
-    :param: completion A closure analog to mailComposeController:didFinishWithResult:error:
+    - parameter completion: A closure analog to mailComposeController:didFinishWithResult:error:
 
-    :returns: an initialized instance of MFMailComposeViewController.
+    - returns: an initialized instance of MFMailComposeViewController.
     */
     public convenience init(completion: LKMailComposerHandler) {
         self.init()

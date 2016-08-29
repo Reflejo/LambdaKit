@@ -64,9 +64,9 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     of the delegate. This closure is an analog for the messageComposeViewController:didFinishWithResult:
     method.
 
-    :param: completion A closure analog to messageComposeViewController:didFinishWithResult:
+    - parameter completion: A closure analog to messageComposeViewController:didFinishWithResult:
 
-    :returns: an initialized instance of MFMessageComposeViewController.
+    - returns: an initialized instance of MFMessageComposeViewController.
     */
     public convenience init(completion: LKMessageComposerHandler) {
         self.init()

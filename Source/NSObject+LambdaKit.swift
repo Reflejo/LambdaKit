@@ -76,7 +76,7 @@ extension NSObject {
     :param: handler A closure with no return argument and two parameters: the newValue and oldValue. Note that
                     both are optionals and will be only present if included in the options parameter.
 
-    :returns: a globally unique identifier for removing observation with removeObserver(token:).
+    - returns: a globally unique identifier for removing observation with removeObserver(token:).
     */
     public func observeKeyPath(keyPath: String, options: NSKeyValueObservingOptions = .New,
         token: String? = nil, handler: LKObserverHandler) -> String

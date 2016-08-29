@@ -72,8 +72,8 @@ extension UIControl {
     /** 
     Adds a closure for a particular event to an internal dispatch table.
 
-    :param: controlEvents A bitmask specifying the control events for which the action message is sent.
-    :param: handler A block representing an action message, with an argument for the sender.
+    - parameter controlEvents: A bitmask specifying the control events for which the action message is sent.
+    - parameter handler: A block representing an action message, with an argument for the sender.
     */
     public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: LKControlHandler) {
         let target = ControlWrapper(handler: handler, events: controlEvents)
@@ -91,7 +91,7 @@ extension UIControl {
     /**
     Remove *all* handlers for a given event.
 
-    :param: controlEvents A bitmask specifying the control events for which the handlers will be removed
+    - parameter controlEvents: A bitmask specifying the control events for which the handlers will be removed
     */
     public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents? = nil) {
         for (event, wrappers) in self.events ?? [:] {

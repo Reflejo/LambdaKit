@@ -61,9 +61,9 @@ extension UIGestureRecognizer {
 
     An alternative to the designated initializer.
 
-    :param: handler The closure which handles an executed gesture.
+    - parameter handler: The closure which handles an executed gesture.
 
-    :returns: an initialized instance of a concrete UIGestureRecognizer subclass.
+    - returns: an initialized instance of a concrete UIGestureRecognizer subclass.
     */
     public convenience init(handler: LKGestureHandler) {
         self.init()
