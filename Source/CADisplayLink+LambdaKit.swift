@@ -57,8 +57,8 @@ extension CADisplayLink {
     Creates a DisplayLink and add it to the main run loop. The displayLink will execute for the given 
     duration in seconds.
 
-    :param: duration The duration in seconds.
-    :param: handler  The closure to execute for every tick
+    - parameter duration: The duration in seconds.
+    - parameter handler:  The closure to execute for every tick.
     */
     public class func runFor(duration: CFTimeInterval, handler: LKDisplayLinkClosure) {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))

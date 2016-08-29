@@ -104,7 +104,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
     /**
     Starts monitoring significant location changes and call the given closure for each change.
 
-    :param: completion A closure that will be called passing as the first argument the device's location.
+    - parameter completion: A closure that will be called passing as the first argument the device's location.
     */
     public func startMonitoringSignificantLocationChanges(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
