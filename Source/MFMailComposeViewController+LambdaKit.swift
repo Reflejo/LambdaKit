@@ -29,22 +29,22 @@ public typealias LKMailComposerHandler = (MFMailComposeViewController, MFMailCom
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-MFMailComposeViewController with closure callback.
-
-Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
-anymore.
-
-Example:
-
-```swift
-let composeViewController = MFMailComposeViewController { viewController, result, type in println("Done") }
-composerViewController.setSubject("Test")
-```
-
-WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
-closures for being called and setting a closure will overwrite the delegate property.
-*/
+/// MFMailComposeViewController with closure callback.
+///
+/// Note that when setting a completion handler, you don't have the responsability to dismiss the view 
+/// controller anymore.
+///
+/// Example:
+///
+/// ```swift let
+/// composeViewController = MFMailComposeViewController { viewController, result, type in
+///     print("Done")
+/// }
+/// composerViewController.setSubject("Test")
+/// ```
+///
+/// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+/// closures for being called and setting a closure will overwrite the delegate property.
 
 extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
@@ -59,15 +59,13 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
         }
     }
 
-    /** 
-    Creates an instance of MFMailComposeViewController and sets the completion closure to be used instead
-    of the delegate. This closure is an analog for the
-    mailComposeController:didFinishWithResult:error: method of MFMailComposeViewControllerDelegate.
-    
-    - parameter completion: A closure analog to mailComposeController:didFinishWithResult:error:
-
-    - returns: an initialized instance of MFMailComposeViewController.
-    */
+    /// Creates an instance of MFMailComposeViewController and sets the completion closure to be used instead of
+    /// the delegate. This closure is an analog for the mailComposeController:didFinishWithResult:error: method of
+    /// MFMailComposeViewControllerDelegate.
+    ///
+    /// - parameter completion: A closure analog to `mailComposeController:didFinishWithResult:error:`.
+    ///
+    /// - returns: An initialized instance of MFMailComposeViewController.
     public convenience init(completion: LKMailComposerHandler) {
         self.init()
 

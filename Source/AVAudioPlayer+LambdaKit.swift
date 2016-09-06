@@ -31,18 +31,16 @@ public typealias LKDecodeErrorDidOccurClosure = (AVAudioPlayer, NSError?) -> Voi
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-AVAudioPlayer with closure callback(s).
-
-Example:
-
-```swift
-let player = try? AVAudioPlayer(contentsOfURL: soundURL)
-player?.play { player, success in
-    // deactivate audio session
-}
-```
-*/
+/// AVAudioPlayer with closure callback(s).
+///
+/// Example:
+///
+/// ```swift
+/// let player = try? AVAudioPlayer(contentsOfURL: soundURL)
+/// player?.play { player, success in
+///     // deactivate audio session
+/// }
+/// ```
 extension AVAudioPlayer: AVAudioPlayerDelegate {
 
     private var closuresWrapper: ClosuresWrapper {
@@ -76,14 +74,12 @@ extension AVAudioPlayer: AVAudioPlayerDelegate {
         get { return self.closuresWrapper.decodeErrorDidOccur }
     }
 
-    /**
-    Plays a sound asynchronously.
-
-    - parameter didFinishPlaying: Closure to be invoked when audio finishes playing. This won't be invoked if
-                                  the player stopped due to an interruption.
-
-    - returns: Returns `true` on success, or `false` on failure.
-    */
+    /// Plays a sound asynchronously.
+    ///
+    /// - parameter didFinishPlaying: Closure to be invoked when audio finishes playing. This won't be invoked
+    ///                               if the player stopped due to an interruption.
+    ///
+    /// - returns: Returns `true` on success, or `false` on failure.
     public func play(didFinishPlaying closure: LKDidFinishPlayingClosure) -> Bool {
         self.didFinishPlaying = closure
         return self.play()

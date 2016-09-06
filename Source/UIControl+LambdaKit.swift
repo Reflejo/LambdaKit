@@ -44,18 +44,16 @@ private final class ControlWrapper {
     }
 }
 
-/** 
-Closure control event handling for UIControl.
-
-Example:
-
-```swift
-let button = UIButton.buttonWithType(.System) as! UIButton
-button.addEventHandler(forControlEvents: .TouchUpInside) { button in
-    println("Button touched!!! \(button)")
-}
-```
-*/
+/// Closure control event handling for UIControl.
+///
+/// Example:
+///
+/// ```swift
+/// let button = UIButton.buttonWithType(.System) as! UIButton
+/// button.addEventHandler(forControlEvents: .TouchUpInside) { button in
+///     print("Button touched!!! \(button)")
+/// }
+/// ```
 extension UIControl {
 
     private var events: [UInt: [ControlWrapper]]? {
@@ -69,12 +67,11 @@ extension UIControl {
         }
     }
 
-    /** 
-    Adds a closure for a particular event to an internal dispatch table.
-
-    - parameter controlEvents: A bitmask specifying the control events for which the action message is sent.
-    - parameter handler: A block representing an action message, with an argument for the sender.
-    */
+    /// Adds a closure for a particular event to an internal dispatch table.
+    ///
+    /// - parameter controlEvents: A bitmask specifying the control events for which the action message is
+    ///                            sent.
+    /// - parameter handler:       A block representing an action message, with an argument for the sender.
     public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: LKControlHandler) {
         let target = ControlWrapper(handler: handler, events: controlEvents)
         self.addTarget(target, action: #selector(ControlWrapper.invoke(_:)), forControlEvents: controlEvents)
@@ -88,11 +85,10 @@ extension UIControl {
         self.events = events
     }
 
-    /**
-    Remove *all* handlers for a given event.
-
-    - parameter controlEvents: A bitmask specifying the control events for which the handlers will be removed
-    */
+    /// Remove *all* handlers for a given event.
+    ///
+    /// - parameter controlEvents: A bitmask specifying the control events for which the handlers will be
+    ///                            removed.
     public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents? = nil) {
         for (event, wrappers) in self.events ?? [:] {
             if controlEvents != nil && (event & controlEvents!.rawValue != controlEvents!.rawValue) {

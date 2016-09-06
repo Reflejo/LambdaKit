@@ -30,30 +30,28 @@ public typealias LKObserverHandler = (newValue: AnyObject?, oldValue: AnyObject?
 private var associatedEventHandle: UInt8 = 0
 private var uniqueObserverContext: UInt8 = 0
 
-/**
-Closure wrapper for key-value observation.
-
-In Mac OS X Panther, Apple introduced an API called "key-value observing."  It implements an
-[observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), where an object will notify observers of
-any changes in state. NSNotification is a rudimentary form of this design style; KVO, however, allows for the
-observation of any change in key-value state. The API for key-value observation, however, is flawed, ugly,
-and lengthy.
-
-Like most of the other closure abilities in ClosureKit, observation saves and a bunch of code and a bunch
-of potential bugs.
-
-**WARNING**: Observing using closures and cocoa observers are independant. Meaning that you shouldn't
-add a "traditional" observer and then remove it using this wrapper nor add a closure observer and remove it
-using Cocoa methods.
-
-Example:
-
-```swift
-self.observeKeyPath("testing", options: .New | .Old) { newValue, oldValue in
-    println("Property was: \(oldValue), now is: \(newValue)")
-}
-```
-*/
+/// Closure wrapper for key-value observation.
+///
+/// In Mac OS X Panther, Apple introduced an API called "key-value observing."  It implements an
+/// [observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), where an object will notify observers
+/// of any changes in state. NSNotification is a rudimentary form of this design style; KVO, however, allows
+/// for the observation of any change in key-value state. The API for key-value observation, however, is
+/// flawed, ugly, and lengthy.
+///
+/// Like most of the other closure abilities in LambdaKit, observation saves and a bunch of code and a bunch
+/// of potential bugs.
+///
+/// **WARNING**: Observing using closures and cocoa observers are independant. Meaning that you shouldn't add
+/// a "traditional" observer and then remove it using this wrapper nor add a closure observer and remove it
+/// using Cocoa methods.
+///
+/// Example:
+///
+/// ```swift
+/// self.observeKeyPath("testing", options: .New | .Old) { newValue, oldValue in
+///     print("Property was: \(oldValue), now is: \(newValue)")
+/// }
+/// ```
 extension NSObject {
 
     private var observer: NSObjectObserver? {
@@ -67,17 +65,16 @@ extension NSObject {
         }
     }
 
-    /**
-    Adds a closure observer that executes a block upon a state change.
-
-    :param: keyPath The property to observe, relative to the reciever.
-    :param: options The NSKeyValueObservingOptions to use.
-    :param: token   A unique identifier used to locate the closure for removal.
-    :param: handler A closure with no return argument and two parameters: the newValue and oldValue. Note that
-                    both are optionals and will be only present if included in the options parameter.
-
-    - returns: a globally unique identifier for removing observation with removeObserver(token:).
-    */
+    /// Adds a closure observer that executes a block upon a state change.
+    ///
+    /// - parameter keyPath: The property to observe, relative to the reciever.
+    /// - parameter options: The NSKeyValueObservingOptions to use.
+    /// - parameter token:   A unique identifier used to locate the closure for removal.
+    /// - parameter handler: A closure with no return argument and two parameters: the newValue and oldValue.
+    ///                      Note that both are optionals and will be only present if included in the options
+    ///                      parameter.
+    ///
+    /// - returns: A globally unique identifier for removing observation with removeObserver(token:).
     public func observeKeyPath(keyPath: String, options: NSKeyValueObservingOptions = .New,
         token: String? = nil, handler: LKObserverHandler) -> String
     {
@@ -95,11 +92,10 @@ extension NSObject {
         return token
     }
 
-    /**
-    Removes the closure observer with a certain identifier.
-
-    :param: token A unique key returned by observeKeyPath or the token given when creating the observer.
-    */
+    /// Removes the closure observer with a certain identifier.
+    ///
+    /// - parameter token: A unique key returned by observeKeyPath or the token given when creating the
+    ///                    observer.
     public func removeObserver(token: String) {
         if let keyPath = self.observer?.removeHandler(forToken: token)
             where self.observer?.hasObservers(forKeyPath: keyPath) == false
@@ -108,11 +104,9 @@ extension NSObject {
         }
     }
 
-    /**
-    Remove all registered closure observers for the given keyPath.
-
-    :param: keyPath The property to stop observing, relative to the reciever.
-    */
+    /// Remove all registered closure observers for the given keyPath.
+    ///
+    /// - parameter keyPath: The property to stop observing, relative to the reciever.
     public func removeAllObservers(forKeyPath keyPath: String? = nil) {
         guard let observer = self.observer else {
             return

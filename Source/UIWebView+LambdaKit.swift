@@ -33,34 +33,31 @@ public typealias LKDidFinishWithErrorClosure = (UIWebView, NSError) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-Closure support for UIWebView.
-
-Example:
-
-```swift
-let webView = UIWebView()
-webView.shouldStartLoad = { webView, request, type in
-    println("shouldStartLoad: \(request)")
-    return true
-}
-
-webView.didStartLoad = { webView in
-    println("didStartLoad: \(webView)")
-}
-
-webView.didFinishLoad = { webView in
-    println("didFinishLoad \(webView)")
-}
-
-webView.didFinishWithError = { webView, error in
-    println("didFinishWithError \(error)")
-}
-```
-
-WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
-closures for being called and setting a closure will overwrite the delegate property.
-*/
+/// Closure support for UIWebView.
+///
+/// Example:
+///
+/// ```swift
+/// let webView = UIWebView() webView.shouldStartLoad = { webView, request, type in
+///     print("shouldStartLoad: \(request)")
+///     return true
+/// }
+///
+/// webView.didStartLoad = { webView in
+///     print("didStartLoad: \(webView)")
+/// }
+///
+/// webView.didFinishLoad = { webView in
+///     print("didFinishLoad \(webView)")
+/// }
+///
+/// webView.didFinishWithError = { webView, error in
+///     print("didFinishWithError \(error)")
+/// }
+/// ```
+///
+/// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+/// closures for being called and setting a closure will overwrite the delegate property.
 extension UIWebView: UIWebViewDelegate {
 
     private var closuresWrapper: ClosuresWrapper {

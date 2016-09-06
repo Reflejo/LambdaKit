@@ -29,32 +29,28 @@ public typealias LKCoreLocationHandler = LKLocationOrError -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-CLLocationManager with closure callback.
+/// CLLocationManager with closure callback.
+///
+/// Note that when using startUpdatingLocation(handler) you need to use the counterpart 
+/// `stopUpdatingLocationHandler` or you'll leak memory.
+///
+/// Example:
+///
+/// ```swift let
+///     locationManager = CLLocationManager()
+///     locationManager.starUpdatingLocation { location in
+///         print("Location: \(location)")
+///     }
+///     locationManager.stopUpdatingLocationHandler()
+/// ```
+///
+/// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+/// closures for being called and setting a closure will overwrite the delegate property.
 
-Note that when using startUpdatingLocation(handler) you need to use the counterpart
-`stopUpdatingLocationHandler` or you'll leak memory.
-
-Example:
-
-```swift
-let locationManager = CLLocationManager()
-locationManager.starUpdatingLocation { location in
-    println("Location: \(location)")
-}
-locationManager.stopUpdatingLocationHandler()
-```
-
-WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
-closures for being called and setting a closure will overwrite the delegate property.
-*/
-
-/**
- An enum that will represent either a location or an error with corresponding associated values.
-
- - Location A location as reported by Core Location.
- - Error    An error coming from Core Location, for example when location service usage is denied.
- */
+/// An enum that will represent either a location or an error with corresponding associated values. 
+///
+/// - Location: A location as reported by Core Location.
+/// - Error:    An error coming from Core Location, for example when location service usage is denied.
 public enum LKLocationOrError {
     case Location(CLLocation)
     case Error(NSError)
@@ -73,11 +69,10 @@ extension CLLocationManager: CLLocationManagerDelegate {
         }
     }
 
-    /**
-    Starts monitoring GPS location changes and call the given closure for each change.
-
-    - parameter completion: A closure that will be called passing as the first argument the device's location.
-    */
+    /// Starts monitoring GPS location changes and call the given closure for each change.
+    ///
+    /// - parameter completion: A closure that will be called passing as the first argument the device's
+    ///                         location.
     public func startUpdatingLocation(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
@@ -87,20 +82,16 @@ extension CLLocationManager: CLLocationManagerDelegate {
         }
     }
 
-    /**
-    Stops monitoring GPS location changes and cleanup.
-    */
+    /// Stops monitoring GPS location changes and cleanup.
     public func stopUpdatingLocationHandler() {
         self.stopUpdatingLocation()
         self.closureWrapper = nil
         self.delegate = nil
     }
 
-    /**
-    Request the current location which is reported in the completion handler
-
-    - parameter completion: A closure that will be called with the device's current location.
-    */
+    /// Request the current location which is reported in the completion handler.
+    ///
+    /// - parameter completion: A closure that will be called with the device's current location.
     @available(iOS 9, watchOS 2, *)
     public func requestLocation(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
@@ -112,20 +103,17 @@ extension CLLocationManager: CLLocationManagerDelegate {
     }
 
 #if !os(watchOS)
-    /**
-    Starts monitoring significant location changes and call the given closure for each change.
-
-    - parameter completion: A closure that will be called passing as the first argument the device's location.
-    */
+    /// Starts monitoring significant location changes and call the given closure for each change.
+    ///
+    /// - parameter completion: A closure that will be called passing as the first argument the device's
+    ///                         location.
     public func startMonitoringSignificantLocationChanges(completion: LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startMonitoringSignificantLocationChanges()
     }
 
-    /**
-    Stops monitoring GPS location changes and cleanup.
-    */
+    /// Stops monitoring GPS location changes and cleanup.
     public func stopMonitoringSignificantLocationChangesHandler() {
         self.stopMonitoringSignificantLocationChanges()
         self.closureWrapper = nil

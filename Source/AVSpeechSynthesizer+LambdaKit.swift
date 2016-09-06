@@ -35,18 +35,16 @@ public typealias LKWillSpeakRangeOfSpeechString = (AVSpeechSynthesizer, NSRange,
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-AVSpeechSynthesizer with closure callback(s).
-
-Example:
-
-```swift
-let player = try? AVAudioPlayer(contentsOfURL: soundURL)
-player?.play { player, success in
-// deactivate audio session
-}
-```
-*/
+/// AVSpeechSynthesizer with closure callback(s).
+///
+/// Example:
+///
+/// ```swift
+/// let player = try?  AVAudioPlayer(contentsOfURL: soundURL)
+/// player?.play { player, success in
+///     // deactivate audio session
+/// }
+/// ```
 extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
 
     private var closuresWrapper: ClosuresWrapper {
@@ -103,13 +101,11 @@ extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
         get { return self.closuresWrapper.willSpeakRangeOfSpeechString }
     }
 
-    /**
-    Enqueues an utterance to be spoken.
-
-    - parameter utterance: An AVSpeechUtterance object containing text to be spoken.
-    - parameter closure:   Closure to be called when speech finishes speaking. This won't be called if the
-                           synthesizer is paused or canceled.
-    */
+    /// Enqueues an utterance to be spoken.
+    ///
+    /// - parameter utterance: An AVSpeechUtterance object containing text to be spoken.
+    /// - parameter closure:   Closure to be called when speech finishes speaking. This won't be called if the
+    ///                        synthesizer is paused or canceled.
     public func speakUtterance(utterance: AVSpeechUtterance,
         didFinishUtterance closure: LKDidFinishSpeechUtterance)
     {

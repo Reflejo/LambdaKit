@@ -30,16 +30,15 @@ public typealias LKDisplayLinkClosure = (progress: Double) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-CADisplayLink closures implementation.
-
-Example:
-```swift
-CADisplayLink.runFor(5.0) { progress in
-    println("Awesome \(progress * 100)%")
-}
-```
-*/
+/// CADisplayLink closures implementation.
+///
+/// Example:
+///
+/// ```swift
+/// CADisplayLink.runFor(5.0) { progress in
+///     println("Awesome \(progress * 100)%")
+/// }
+/// ```
 extension CADisplayLink {
 
     private var closureWrapper: ClosuresWrapper? {
@@ -53,13 +52,11 @@ extension CADisplayLink {
         }
     }
 
-    /**
-    Creates a DisplayLink and add it to the main run loop. The displayLink will execute for the given 
-    duration in seconds.
-
-    - parameter duration: The duration in seconds.
-    - parameter handler:  The closure to execute for every tick.
-    */
+    /// Creates a DisplayLink and add it to the main run loop. The displayLink will execute for the given
+    /// duration in seconds.
+    ///
+    /// - parameter duration: The duration in seconds.
+    /// - parameter handler:  The closure to execute for every tick.
     public class func runFor(duration: CFTimeInterval, handler: LKDisplayLinkClosure) {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))
 
