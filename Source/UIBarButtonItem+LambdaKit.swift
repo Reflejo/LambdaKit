@@ -30,17 +30,14 @@ public typealias LKBarButtonHandler = (sender: UIBarButtonItem) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/** 
-Closure event initialization for UIBarButtonItem.
-
-Example:
-
-```swift
-self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Bordered) { btn in
-    println("Button touched!!!!!! \(btn)")
-}
-```
-*/
+/// Closure event initialization for UIBarButtonItem.
+///
+/// Example:
+/// ```swift
+/// self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Bordered) { btn in
+///     print("Button touched!!!!!! \(btn)")
+/// }
+/// ```
 extension UIBarButtonItem {
 
     private var closuresWrapper: ClosureWrapper? {
@@ -54,15 +51,13 @@ extension UIBarButtonItem {
         }
     }
 
-    /**
-    Initializes an UIBarButtonItem that will call the given closure when the button is touched.
-
-    - parameter image:   The item’s image. If nil an image is not displayed.
-    - parameter style:   The style of the item. One of the constants defined in UIBarButtonItemStyle.
-    - parameter handler: The closure which handles button touches.
-
-    - returns: an initialized instance of UIBarButtonItem.
-    */
+    /// Initializes an UIBarButtonItem that will call the given closure when the button is touched.
+    ///
+    /// - parameter image:   The item’s image. If nil an image is not displayed.
+    /// - parameter style:   The style of the item. One of the constants defined in UIBarButtonItemStyle.
+    /// - parameter handler: The closure which handles button touches.
+    ///
+    /// - returns: An initialized instance of UIBarButtonItem.
     public convenience init(image: UIImage?, style: UIBarButtonItemStyle, handler: LKBarButtonHandler) {
         self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))
         self.closuresWrapper = ClosureWrapper(handler: handler)

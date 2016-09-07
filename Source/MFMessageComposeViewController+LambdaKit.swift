@@ -29,23 +29,22 @@ public typealias LKMessageComposerHandler = (MFMessageComposeViewController, Mes
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-MFMessageComposeViewController with closure callback.
-
-Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
-anymore.
-
-Example:
-
-```swift
-let composeViewController = MFMessageComposeViewController { viewController, result in println("Done") }
-composerViewController.body = "test sms"
-```
-
-WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
-closures for being called and setting a closure will overwrite the delegate property.
-*/
-
+/// MFMessageComposeViewController with closure callback.
+///
+/// Note that when setting a completion handler, you don't have the responsability to dismiss the view
+/// controller anymore.
+///
+/// Example:
+///
+/// ```swift let
+/// composeViewController = MFMessageComposeViewController { viewController, result in
+///     print("Done")
+/// }
+/// composerViewController.body = "test sms"
+/// ```
+///
+/// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
+/// closures for being called and setting a closure will overwrite the delegate property.
 extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate {
 
     private var closureWrapper: ClosureWrapper? {
@@ -59,15 +58,13 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
         }
     }
 
-    /**
-    Creates an instance of MFMessageComposeViewController and sets the completion closure to be used instead
-    of the delegate. This closure is an analog for the messageComposeViewController:didFinishWithResult:
-    method.
-
-    - parameter completion: A closure analog to messageComposeViewController:didFinishWithResult:
-
-    - returns: an initialized instance of MFMessageComposeViewController.
-    */
+    /// Creates an instance of MFMessageComposeViewController and sets the completion closure to be used
+    /// instead of the delegate. This closure is an analog for the
+    /// messageComposeViewController:didFinishWithResult: method.
+    ///
+    /// - parameter completion: A closure analog to messageComposeViewController:didFinishWithResult:.
+    ///
+    /// - returns: An initialized instance of MFMessageComposeViewController.
     public convenience init(completion: LKMessageComposerHandler) {
         self.init()
 
@@ -77,7 +74,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     // MARK: MFMessageComposeViewControllerDelegate implementation
 
-    private func messageComposeViewController(controller: MFMessageComposeViewController,
+    public func messageComposeViewController(controller: MFMessageComposeViewController,
         didFinishWithResult result: MessageComposeResult)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)

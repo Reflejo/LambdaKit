@@ -31,22 +31,20 @@ public typealias LKCancelClosure = (UIImagePickerController) -> Void
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-UIImagePickerController with closure callback(s).
-
-Example:
-
-```swift
-let picker = UIImagePickerController()
-picker.didCancel = { picker in
-    println("DID CANCEL! \(picker)")
-}
-picker.didFinishPickingMedia = { picker, media in 
-    println("Media: \(media[UIImagePickerControllerEditedImage])")
-}
-self.presentViewController(picker, animated: true, completion: nil)
-```
-*/
+/// UIImagePickerController with closure callback(s).
+///
+/// Example:
+///
+/// ```swift
+/// let picker = UIImagePickerController()
+/// picker.didCancel = { picker in
+///     print("DID CANCEL! \(picker)")
+/// }
+/// picker.didFinishPickingMedia = { picker, media in
+///     print("Media: \(media[UIImagePickerControllerEditedImage])")
+/// }
+/// self.presentViewController(picker, animated: true, completion: nil)
+/// ```
 extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     private var closuresWrapper: ClosuresWrapper {

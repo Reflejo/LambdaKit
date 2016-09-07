@@ -29,19 +29,17 @@ public typealias LKGestureHandler = (sender: UIGestureRecognizer, state: UIGestu
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-/**
-Closure functionality for UIGestureRecognizer.
-
-Example: 
-
-```swift
-let doubleTap = UITapGestureRecognizer { gesture, state in
-    println("Double tap!")
-}
-doubleTap.numberOfTapsRequired = 2
-self.addGestureRecognizer(doubleTap)
-```
-*/
+/// Closure functionality for UIGestureRecognizer.
+///
+/// Example:
+///
+/// ```swift
+/// let doubleTap = UITapGestureRecognizer { gesture, state in
+///     print("Double tap!")
+/// }
+/// doubleTap.numberOfTapsRequired = 2
+/// self.addGestureRecognizer(doubleTap)
+/// ```
 extension UIGestureRecognizer {
 
     private var closureWrapper: GestureClosureWrapper? {
@@ -55,16 +53,12 @@ extension UIGestureRecognizer {
         }
     }
 
-    /**
-    Initializes an allocated gesture recognizer that will call the given closure when the gesture is 
-    recognized.
-
-    An alternative to the designated initializer.
-
-    - parameter handler: The closure which handles an executed gesture.
-
-    - returns: an initialized instance of a concrete UIGestureRecognizer subclass.
-    */
+    /// Initializes an allocated gesture recognizer that will call the given closure when the gesture is
+    /// recognized.  An alternative to the designated initializer.
+    ///
+    /// - parameter handler: The closure which handles an executed gesture.
+    ///
+    /// - returns: An initialized instance of a concrete UIGestureRecognizer subclass.
     public convenience init(handler: LKGestureHandler) {
         self.init()
 
