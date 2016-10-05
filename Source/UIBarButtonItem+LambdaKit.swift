@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public typealias LKBarButtonHandler = (sender: UIBarButtonItem) -> Void
+public typealias LKBarButtonHandler = (_ sender: UIBarButtonItem) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -39,7 +39,6 @@ private var associatedEventHandle: UInt8 = 0
 /// }
 /// ```
 extension UIBarButtonItem {
-
     private var closuresWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
@@ -58,7 +57,9 @@ extension UIBarButtonItem {
     /// - parameter handler: The closure which handles button touches.
     ///
     /// - returns: An initialized instance of UIBarButtonItem.
-    public convenience init(image: UIImage?, style: UIBarButtonItemStyle, handler: LKBarButtonHandler) {
+    public convenience init(image: UIImage?, style: UIBarButtonItemStyle,
+                            handler: @escaping LKBarButtonHandler)
+    {
         self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))
         self.closuresWrapper = ClosureWrapper(handler: handler)
         self.target = self
@@ -68,16 +69,16 @@ extension UIBarButtonItem {
 
     @objc
     private func handleAction() {
-        self.closuresWrapper?.handler(sender: self)
+        self.closuresWrapper?.handler(self)
     }
 }
 
 // MARK: - Private classes
 
-private final class ClosureWrapper {
-    private var handler: LKBarButtonHandler
+fileprivate final class ClosureWrapper {
+    fileprivate var handler: LKBarButtonHandler
 
-    init(handler: LKBarButtonHandler) {
+    fileprivate init(handler: @escaping LKBarButtonHandler) {
         self.handler = handler
     }
 }

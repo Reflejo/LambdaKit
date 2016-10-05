@@ -42,7 +42,6 @@ private var associatedEventHandle: UInt8 = 0
 /// }
 /// ```
 extension AVAudioPlayer: AVAudioPlayerDelegate {
-
     private var closuresWrapper: ClosuresWrapper {
         get {
             if let wrapper = objc_getAssociatedObject(self, &associatedEventHandle) as? ClosuresWrapper {
@@ -80,23 +79,23 @@ extension AVAudioPlayer: AVAudioPlayerDelegate {
     ///                               if the player stopped due to an interruption.
     ///
     /// - returns: Returns `true` on success, or `false` on failure.
-    public func play(didFinishPlaying closure: LKDidFinishPlayingClosure) -> Bool {
+    public func play(didFinishPlaying closure: @escaping LKDidFinishPlayingClosure) -> Bool {
         self.didFinishPlaying = closure
         return self.play()
     }
 
     // MARK: AVAudioPlayerDelegate implementation
 
-    public func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         self.closuresWrapper.didFinishPlaying?(player, flag)
     }
 
-    public func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
-        self.closuresWrapper.decodeErrorDidOccur?(player, error)
+    public func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        self.closuresWrapper.decodeErrorDidOccur?(player, error as NSError?)
     }
 }
 
 private final class ClosuresWrapper {
-    private var didFinishPlaying: LKDidFinishPlayingClosure?
-    private var decodeErrorDidOccur: LKDecodeErrorDidOccurClosure?
+    fileprivate var didFinishPlaying: LKDidFinishPlayingClosure?
+    fileprivate var decodeErrorDidOccur: LKDecodeErrorDidOccurClosure?
 }

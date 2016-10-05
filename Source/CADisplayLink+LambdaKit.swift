@@ -25,7 +25,7 @@
 import Foundation
 import QuartzCore
 
-public typealias LKDisplayLinkClosure = (progress: Double) -> Void
+public typealias LKDisplayLinkClosure = (_ progress: Double) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -40,7 +40,6 @@ private var associatedEventHandle: UInt8 = 0
 /// }
 /// ```
 extension CADisplayLink {
-
     private var closureWrapper: ClosuresWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosuresWrapper
@@ -57,40 +56,44 @@ extension CADisplayLink {
     ///
     /// - parameter duration: The duration in seconds.
     /// - parameter handler:  The closure to execute for every tick.
-    public class func runFor(duration: CFTimeInterval, handler: LKDisplayLinkClosure) {
+    public class func runFor(_ duration: CFTimeInterval, handler: @escaping LKDisplayLinkClosure) {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))
 
         displayLink.closureWrapper = ClosuresWrapper(handler: handler, duration: duration)
-        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
     }
 
     // MARK: Private methods
 
     @objc
-    class private func tick(displayLink: CADisplayLink) {
-        if displayLink.closureWrapper?.startTime < DBL_EPSILON {
+    private class func tick(_ displayLink: CADisplayLink) {
+        guard let closureWrapper = displayLink.closureWrapper else {
+            return
+        }
+
+        if closureWrapper.startTime < DBL_EPSILON {
             displayLink.closureWrapper?.startTime = displayLink.timestamp
         }
 
-        let elapsed = displayLink.timestamp - displayLink.closureWrapper!.startTime
-        let duration = displayLink.closureWrapper!.duration
+        let elapsed = displayLink.timestamp - closureWrapper.startTime
+        let duration = closureWrapper.duration
         if elapsed >= duration {
             displayLink.closureWrapper = nil
             displayLink.invalidate()
         } else {
-            displayLink.closureWrapper?.handler(progress: elapsed / duration)
+            closureWrapper.handler(elapsed / duration)
         }
     }
 }
 
 // MARK: - Private classes
 
-private final class ClosuresWrapper {
-    private var handler: LKDisplayLinkClosure
-    private var duration: CFTimeInterval
-    private var startTime: CFTimeInterval = 0.0
+fileprivate final class ClosuresWrapper {
+    fileprivate var handler: LKDisplayLinkClosure
+    fileprivate var duration: CFTimeInterval
+    fileprivate var startTime: CFTimeInterval = 0.0
 
-    init(handler: LKDisplayLinkClosure, duration: CFTimeInterval) {
+    fileprivate init(handler: @escaping LKDisplayLinkClosure, duration: CFTimeInterval) {
         self.handler = handler
         self.duration = duration
     }

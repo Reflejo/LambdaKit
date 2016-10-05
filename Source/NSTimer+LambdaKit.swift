@@ -24,7 +24,7 @@
 
 import Foundation
 
-public typealias LKTimerHandler = (timer: NSTimer) -> Void
+public typealias LKTimerHandler = (Timer) -> Void
 
 /// Simple closure implementation on NSTimer scheduling.
 ///
@@ -35,7 +35,7 @@ public typealias LKTimerHandler = (timer: NSTimer) -> Void
 ///     print("Did something after 1s!")
 /// }
 /// ```
-extension NSTimer {
+extension Timer {
 
     /// Creates and returns a block-based NSTimer object and schedules it on the current run loop.
     ///
@@ -45,20 +45,22 @@ extension NSTimer {
     /// - parameter handler:   The closure that the NSTimer fires.
     ///
     /// - returns: A new NSTimer object, configured according to the specified parameters.
-    class public func scheduledTimerWithTimeInterval(interval: NSTimeInterval, repeated: Bool = false,
-        handler: LKTimerHandler) -> NSTimer
+    @discardableResult
+    public class func scheduledTimerWithTimeInterval(_ interval: TimeInterval, repeated: Bool = false,
+                                                     handler: @escaping LKTimerHandler) -> Timer
     {
-        return NSTimer.scheduledTimerWithTimeInterval(interval, target: self,
-            selector: #selector(NSTimer.invokeFromTimer(_:)),
-            userInfo: TimerClosureWrapper(handler: handler, repeats: repeated), repeats: repeated)
+        return Timer.scheduledTimer(timeInterval: interval, target: self,
+                                    selector: #selector(Timer.invoke(from:)),
+                                    userInfo: TimerClosureWrapper(handler: handler, repeats: repeated),
+                                    repeats: repeated)
     }
 
     // MARK: Private methods
 
     @objc
-    class private func invokeFromTimer(timer: NSTimer) {
+    private class func invoke(from timer: Timer) {
         if let closureWrapper = timer.userInfo as? TimerClosureWrapper {
-            closureWrapper.handler(timer: timer)
+            closureWrapper.handler(timer)
         }
     }
 }
@@ -66,10 +68,10 @@ extension NSTimer {
 // MARK: - Private classes
 
 private final class TimerClosureWrapper {
-    private var handler: LKTimerHandler
+    fileprivate var handler: LKTimerHandler
     private var repeats: Bool
 
-    init(handler: LKTimerHandler, repeats: Bool) {
+    init(handler: @escaping LKTimerHandler, repeats: Bool) {
         self.handler = handler
         self.repeats = repeats
     }

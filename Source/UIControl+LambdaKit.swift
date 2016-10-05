@@ -24,23 +24,23 @@
 
 import UIKit
 
-public typealias LKControlHandler = (sender: UIControl) -> Void
+public typealias LKControlHandler = (_ sender: UIControl) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
-private final class ControlWrapper {
-    private var controlEvents: UIControlEvents
-    private var handler: LKControlHandler
+fileprivate final class ControlWrapper {
+    fileprivate var controlEvents: UIControlEvents
+    fileprivate var handler: LKControlHandler
 
-    init(handler: LKControlHandler, events: UIControlEvents) {
+    fileprivate init(handler: @escaping LKControlHandler, events: UIControlEvents) {
         self.handler = handler
         self.controlEvents = events
     }
 
     @objc
-    private func invoke(control: UIControl) {
-        self.handler(sender: control)
+    fileprivate func invoke(_ control: UIControl) {
+        self.handler(control)
     }
 }
 
@@ -55,7 +55,6 @@ private final class ControlWrapper {
 /// }
 /// ```
 extension UIControl {
-
     private var events: [UInt: [ControlWrapper]]? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? [UInt: [ControlWrapper]]
@@ -72,9 +71,11 @@ extension UIControl {
     /// - parameter controlEvents: A bitmask specifying the control events for which the action message is
     ///                            sent.
     /// - parameter handler:       A block representing an action message, with an argument for the sender.
-    public func addEventHandler(forControlEvents controlEvents: UIControlEvents, handler: LKControlHandler) {
+    public func addEventHandler(forControlEvents controlEvents: UIControlEvents,
+                                handler: @escaping LKControlHandler)
+    {
         let target = ControlWrapper(handler: handler, events: controlEvents)
-        self.addTarget(target, action: #selector(ControlWrapper.invoke(_:)), forControlEvents: controlEvents)
+        self.addTarget(target, action: #selector(ControlWrapper.invoke(_:)), for: controlEvents)
 
         var events = self.events ?? [:]
         if events[controlEvents.rawValue] == nil {
@@ -98,7 +99,7 @@ extension UIControl {
             self.events?[event] = nil
             for wrapper in wrappers {
                 self.removeTarget(wrapper, action: #selector(ControlWrapper.invoke(_:)),
-                    forControlEvents: UIControlEvents(rawValue: event))
+                    for: UIControlEvents(rawValue: event))
             }
         }
     }

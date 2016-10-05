@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public typealias LKShouldStartClosure = (UIWebView, NSURLRequest, UIWebViewNavigationType) -> Bool
+public typealias LKShouldStartClosure = (UIWebView, URLRequest, UIWebViewNavigationType) -> Bool
 public typealias LKDidStartClosure = (UIWebView) -> Void
 public typealias LKDidFinishLoadClosure = (UIWebView) -> Void
 public typealias LKDidFinishWithErrorClosure = (UIWebView, NSError) -> Void
@@ -59,7 +59,6 @@ private var associatedEventHandle: UInt8 = 0
 /// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
 /// closures for being called and setting a closure will overwrite the delegate property.
 extension UIWebView: UIWebViewDelegate {
-
     private var closuresWrapper: ClosuresWrapper {
         get {
             if let wrapper = objc_getAssociatedObject(self, &associatedEventHandle) as? ClosuresWrapper {
@@ -104,30 +103,30 @@ extension UIWebView: UIWebViewDelegate {
 
     // MARK: UIWebViewDelegate implementation
 
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest,
+    public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
         navigationType: UIWebViewNavigationType) -> Bool
     {
         return self.shouldStartLoad?(webView, request, navigationType) ?? true
     }
 
-    public func webViewDidStartLoad(webView: UIWebView) {
+    public func webViewDidStartLoad(_ webView: UIWebView) {
         self.didStartLoad?(webView)
     }
 
-    public func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(_ webView: UIWebView) {
         self.didFinishLoad?(webView)
     }
 
-    public func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        self.didFinishWithError?(webView, error)
+    public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        self.didFinishWithError?(webView, error as NSError)
     }
 }
 
 // MARK: - Private classes
 
-private final class ClosuresWrapper {
-    private var shouldStartLoad: LKShouldStartClosure?
-    private var didStartLoad: LKDidStartClosure?
-    private var didFinishLoad: LKDidFinishLoadClosure?
-    private var didFinishWithError: LKDidFinishWithErrorClosure?
+fileprivate final class ClosuresWrapper {
+    fileprivate var shouldStartLoad: LKShouldStartClosure?
+    fileprivate var didStartLoad: LKDidStartClosure?
+    fileprivate var didFinishLoad: LKDidFinishLoadClosure?
+    fileprivate var didFinishWithError: LKDidFinishWithErrorClosure?
 }
