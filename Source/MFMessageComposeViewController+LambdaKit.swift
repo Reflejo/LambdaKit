@@ -46,7 +46,6 @@ private var associatedEventHandle: UInt8 = 0
 /// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
 /// closures for being called and setting a closure will overwrite the delegate property.
 extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate {
-
     private var closureWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
@@ -65,7 +64,7 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     /// - parameter completion: A closure analog to messageComposeViewController:didFinishWithResult:.
     ///
     /// - returns: An initialized instance of MFMessageComposeViewController.
-    public convenience init(completion: LKMessageComposerHandler) {
+    public convenience init(completion: @escaping LKMessageComposerHandler) {
         self.init()
 
         self.closureWrapper = ClosureWrapper(handler: completion)
@@ -74,10 +73,10 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
     // MARK: MFMessageComposeViewControllerDelegate implementation
 
-    public func messageComposeViewController(controller: MFMessageComposeViewController,
-        didFinishWithResult result: MessageComposeResult)
+    public func messageComposeViewController(_ controller: MFMessageComposeViewController,
+        didFinishWith result: MessageComposeResult)
     {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
         self.closureWrapper?.handler(controller, result)
         self.messageComposeDelegate = nil
         self.closureWrapper = nil
@@ -86,10 +85,10 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
 
 // MARK: - Private classes
 
-private final class ClosureWrapper {
-    private var handler: LKMessageComposerHandler
+fileprivate final class ClosureWrapper {
+    fileprivate var handler: LKMessageComposerHandler
 
-    init(handler: LKMessageComposerHandler) {
+    fileprivate init(handler: @escaping LKMessageComposerHandler) {
         self.handler = handler
     }
 }

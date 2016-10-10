@@ -24,7 +24,7 @@
 
 import Foundation
 
-public typealias LKObserverHandler = (newValue: AnyObject?, oldValue: AnyObject?) -> Void
+public typealias LKObserverHandler = (_ newValue: AnyObject?, _ oldValue: AnyObject?) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -53,7 +53,6 @@ private var uniqueObserverContext: UInt8 = 0
 /// }
 /// ```
 extension NSObject {
-
     private var observer: NSObjectObserver? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? NSObjectObserver
@@ -75,8 +74,9 @@ extension NSObject {
     ///                      parameter.
     ///
     /// - returns: A globally unique identifier for removing observation with removeObserver(token:).
-    public func observeKeyPath(keyPath: String, options: NSKeyValueObservingOptions = .New,
-        token: String? = nil, handler: LKObserverHandler) -> String
+    @discardableResult
+    public func observeKeyPath(_ keyPath: String, options: NSKeyValueObservingOptions = .new,
+        token: String? = nil, handler: @escaping LKObserverHandler) -> String
     {
         if self.observer == nil {
             self.observer = NSObjectObserver()
@@ -87,7 +87,7 @@ extension NSObject {
                 context: &uniqueObserverContext)
         }
 
-        let token = token ?? NSUUID().UUIDString
+        let token = token ?? UUID().uuidString
         self.observer?.addHandler(handler, forKeyPath: keyPath, token: token)
         return token
     }
@@ -96,9 +96,9 @@ extension NSObject {
     ///
     /// - parameter token: A unique key returned by observeKeyPath or the token given when creating the
     ///                    observer.
-    public func removeObserver(token: String) {
-        if let keyPath = self.observer?.removeHandler(forToken: token)
-            where self.observer?.hasObservers(forKeyPath: keyPath) == false
+    public func removeObserver(_ token: String) {
+        if let keyPath = self.observer?.removeHandler(forToken: token),
+            self.observer?.hasObservers(forKeyPath: keyPath) == false
         {
             self.removeObserver(self.observer!, forKeyPath: keyPath, context: &uniqueObserverContext)
         }
@@ -120,32 +120,37 @@ extension NSObject {
 
 // MARK - Private classes
 
-private final class NSObjectObserver: NSObject {
-
+fileprivate final class NSObjectObserver: NSObject {
     private var handlers: [String: [(token: String, handler: LKObserverHandler)]] = [:]
 
-    private func hasObservers(forKeyPath keyPath: String) -> Bool {
-        return handlers[keyPath]?.count > 0
+    fileprivate func hasObservers(forKeyPath keyPath: String) -> Bool {
+        if let count = handlers[keyPath]?.count, count > 0 {
+            return true
+        } else {
+            return false
+        }
     }
 
-    private func addHandler(handler: LKObserverHandler, forKeyPath keyPath: String, token: String) {
+    fileprivate func addHandler(_ handler: @escaping LKObserverHandler, forKeyPath keyPath: String,
+                                token: String)
+    {
         if self.handlers[keyPath] == nil {
             self.handlers[keyPath] = []
         }
 
         let element = (token: token, handler: handler)
-        self.handlers[keyPath]!.append(element)
+        self.handlers[keyPath]!.append(element )
     }
 
-    private func removeHandler(forToken removeToken: String) -> String? {
+    fileprivate func removeHandler(forToken removeToken: String) -> String? {
         let allHandlers = self.handlers
         for (keyPath, handlers) in allHandlers {
-            for (i, tuple) in handlers.enumerate() {
+            for (i, tuple) in handlers.enumerated() {
                 let (token, _) = tuple
 
                 // If token is found, remove the handler. If there are not more handlers, remove the observer
                 if token == removeToken {
-                    self.handlers[keyPath]?.removeAtIndex(i)
+                    self.handlers[keyPath]?.remove(at: i)
                     return keyPath
                 }
             }
@@ -154,23 +159,26 @@ private final class NSObjectObserver: NSObject {
         return nil
     }
 
-    private func removeAllHandlers(forKeyPath removeKeyPath: String? = nil) -> [String] {
+    fileprivate func removeAllHandlers(forKeyPath removeKeyPath: String? = nil) -> [String] {
         let allKeyPaths = removeKeyPath != nil ? [removeKeyPath!] : Array(self.handlers.keys)
 
         for keyPath in allKeyPaths {
-            self.handlers.removeValueForKey(keyPath)
+            self.handlers.removeValue(forKey: keyPath)
         }
 
         return allKeyPaths
     }
 
-    private override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
-        change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    fileprivate override func observeValue(forKeyPath keyPath: String?, of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
-        guard let keyPath = keyPath else { return }
+        guard let keyPath = keyPath else {
+            return
+        }
 
         for (_, handler) in self.handlers[keyPath] ?? [] {
-            handler(newValue: change?[NSKeyValueChangeNewKey], oldValue: change?[NSKeyValueChangeOldKey])
+            handler(change?[NSKeyValueChangeKey.newKey] as AnyObject?,
+                    change?[NSKeyValueChangeKey.oldKey] as AnyObject?)
         }
     }
 }

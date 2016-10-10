@@ -24,7 +24,7 @@
 
 import UIKit
 
-public typealias LKGestureHandler = (sender: UIGestureRecognizer, state: UIGestureRecognizerState) -> Void
+public typealias LKGestureHandler = (_ sender: UIGestureRecognizer, _ state: UIGestureRecognizerState) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
@@ -41,7 +41,6 @@ private var associatedEventHandle: UInt8 = 0
 /// self.addGestureRecognizer(doubleTap)
 /// ```
 extension UIGestureRecognizer {
-
     private var closureWrapper: GestureClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? GestureClosureWrapper
@@ -59,7 +58,7 @@ extension UIGestureRecognizer {
     /// - parameter handler: The closure which handles an executed gesture.
     ///
     /// - returns: An initialized instance of a concrete UIGestureRecognizer subclass.
-    public convenience init(handler: LKGestureHandler) {
+    public convenience init(handler: @escaping LKGestureHandler) {
         self.init()
 
         self.closureWrapper = GestureClosureWrapper(handler: handler)
@@ -68,16 +67,16 @@ extension UIGestureRecognizer {
 
     @objc
     private func handleAction() {
-        self.closureWrapper?.handler(sender: self, state: self.state)
+        self.closureWrapper?.handler(self, self.state)
     }
 }
 
 // MARK: - Private classes
 
-private final class GestureClosureWrapper {
-    private var handler: LKGestureHandler
+fileprivate final class GestureClosureWrapper {
+    fileprivate var handler: LKGestureHandler
 
-    init(handler: LKGestureHandler) {
+    fileprivate init(handler: @escaping LKGestureHandler) {
         self.handler = handler
     }
 }

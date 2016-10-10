@@ -31,7 +31,7 @@ private var associatedEventHandle: UInt8 = 0
 
 /// MFMailComposeViewController with closure callback.
 ///
-/// Note that when setting a completion handler, you don't have the responsability to dismiss the view 
+/// Note that when setting a completion handler, you don't have the responsability to dismiss the view
 /// controller anymore.
 ///
 /// Example:
@@ -47,7 +47,6 @@ private var associatedEventHandle: UInt8 = 0
 /// closures for being called and setting a closure will overwrite the delegate property.
 
 extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
-
     private var closureWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
@@ -59,14 +58,14 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
         }
     }
 
-    /// Creates an instance of MFMailComposeViewController and sets the completion closure to be used instead of
-    /// the delegate. This closure is an analog for the mailComposeController:didFinishWithResult:error: method of
-    /// MFMailComposeViewControllerDelegate.
+    /// Creates an instance of MFMailComposeViewController and sets the completion closure to be used instead
+    /// of the delegate. This closure is an analog for the mailComposeController:didFinishWithResult:error:
+    /// method of MFMailComposeViewControllerDelegate.
     ///
     /// - parameter completion: A closure analog to `mailComposeController:didFinishWithResult:error:`.
     ///
     /// - returns: An initialized instance of MFMailComposeViewController.
-    public convenience init(completion: LKMailComposerHandler) {
+    public convenience init(completion: @escaping LKMailComposerHandler) {
         self.init()
 
         self.closureWrapper = ClosureWrapper(handler: completion)
@@ -76,11 +75,11 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
     // MARK: MFMailComposeViewControllerDelegate implementation
 
 
-    public func mailComposeController(controller: MFMailComposeViewController,
-        didFinishWithResult result: MFMailComposeResult, error: NSError?)
+    public func mailComposeController(_ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult, error: Error?)
     {
-        controller.dismissViewControllerAnimated(true, completion: nil)
-        self.closureWrapper?.handler(controller, result, error)
+        controller.dismiss(animated: true, completion: nil)
+        self.closureWrapper?.handler(controller, result, error as NSError?)
         self.mailComposeDelegate = nil
         self.closureWrapper = nil
     }
@@ -88,10 +87,10 @@ extension MFMailComposeViewController: MFMailComposeViewControllerDelegate {
 
 // MARK: - Private Classes
 
-private final class ClosureWrapper {
-    private var handler: LKMailComposerHandler
+fileprivate final class ClosureWrapper {
+    fileprivate var handler: LKMailComposerHandler
 
-    init(handler: LKMailComposerHandler) {
+    fileprivate init(handler: @escaping LKMailComposerHandler) {
         self.handler = handler
     }
 }

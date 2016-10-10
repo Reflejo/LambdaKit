@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public typealias LKFinishPickingMediaClosure = (UIImagePickerController, [NSObject: AnyObject]) -> Void
+public typealias LKFinishPickingMediaClosure = (UIImagePickerController, [AnyHashable: Any]) -> Void
 public typealias LKCancelClosure = (UIImagePickerController) -> Void
 
 // A global var to produce a unique address for the assoc object handle
@@ -46,7 +46,6 @@ private var associatedEventHandle: UInt8 = 0
 /// self.presentViewController(picker, animated: true, completion: nil)
 /// ```
 extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     private var closuresWrapper: ClosuresWrapper {
         get {
             if let wrapper = objc_getAssociatedObject(self, &associatedEventHandle) as? ClosuresWrapper {
@@ -79,20 +78,20 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 
     // MARK: UIImagePickerControllerDelegate implementation
 
-    public func imagePickerController(picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [String : AnyObject])
+    public func imagePickerController(_ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [String : Any])
     {
         self.closuresWrapper.didFinishPickingMedia?(picker, info)
     }
 
-    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.closuresWrapper.didCancel?(picker)
     }
 }
 
 // MARK: - Private classes
 
-private final class ClosuresWrapper {
-    private var didFinishPickingMedia: LKFinishPickingMediaClosure?
-    private var didCancel: LKCancelClosure?
+fileprivate final class ClosuresWrapper {
+    fileprivate var didFinishPickingMedia: LKFinishPickingMediaClosure?
+    fileprivate var didCancel: LKCancelClosure?
 }

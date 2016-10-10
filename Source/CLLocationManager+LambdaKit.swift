@@ -24,14 +24,14 @@
 
 import CoreLocation
 
-public typealias LKCoreLocationHandler = LKLocationOrError -> Void
+public typealias LKCoreLocationHandler = (LKLocationOrError) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0
 
 /// CLLocationManager with closure callback.
 ///
-/// Note that when using startUpdatingLocation(handler) you need to use the counterpart 
+/// Note that when using startUpdatingLocation(handler) you need to use the counterpart
 /// `stopUpdatingLocationHandler` or you'll leak memory.
 ///
 /// Example:
@@ -47,17 +47,16 @@ private var associatedEventHandle: UInt8 = 0
 /// WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
 /// closures for being called and setting a closure will overwrite the delegate property.
 
-/// An enum that will represent either a location or an error with corresponding associated values. 
+/// An enum that will represent either a location or an error with corresponding associated values.
 ///
 /// - Location: A location as reported by Core Location.
 /// - Error:    An error coming from Core Location, for example when location service usage is denied.
 public enum LKLocationOrError {
-    case Location(CLLocation)
-    case Error(NSError)
+    case location(CLLocation)
+    case error(NSError)
 }
 
 extension CLLocationManager: CLLocationManagerDelegate {
-
     private var closureWrapper: ClosureWrapper? {
         get {
             return objc_getAssociatedObject(self, &associatedEventHandle) as? ClosureWrapper
@@ -73,12 +72,12 @@ extension CLLocationManager: CLLocationManagerDelegate {
     ///
     /// - parameter completion: A closure that will be called passing as the first argument the device's
     ///                         location.
-    public func startUpdatingLocation(completion: LKCoreLocationHandler) {
+    public func startUpdatingLocation(_ completion: @escaping LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startUpdatingLocation()
         if let location = self.location {
-            completion(.Location(location))
+            completion(.location(location))
         }
     }
 
@@ -93,12 +92,12 @@ extension CLLocationManager: CLLocationManagerDelegate {
     ///
     /// - parameter completion: A closure that will be called with the device's current location.
     @available(iOS 9, watchOS 2, *)
-    public func requestLocation(completion: LKCoreLocationHandler) {
+    public func requestLocation(_ completion: @escaping LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.requestLocation()
         if let location = self.location {
-            completion(.Location(location))
+            completion(.location(location))
         }
     }
 
@@ -107,7 +106,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
     ///
     /// - parameter completion: A closure that will be called passing as the first argument the device's
     ///                         location.
-    public func startMonitoringSignificantLocationChanges(completion: LKCoreLocationHandler) {
+    public func startMonitoringSignificantLocationChanges(_ completion: @escaping LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
         self.startMonitoringSignificantLocationChanges()
@@ -121,23 +120,23 @@ extension CLLocationManager: CLLocationManagerDelegate {
     }
 #endif
 
-    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let handler = self.closureWrapper?.handler, let location = manager.location {
-            handler(.Location(location))
+            handler(.location(location))
         }
     }
 
-    public func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        self.closureWrapper?.handler(.Error(error))
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.closureWrapper?.handler(.error(error as NSError))
     }
 }
 
 // MARK: - Private Classes
 
-private final class ClosureWrapper {
-    private var handler: LKCoreLocationHandler
+fileprivate final class ClosureWrapper {
+    fileprivate var handler: LKCoreLocationHandler
 
-    init(handler: LKCoreLocationHandler) {
+    fileprivate init(handler: @escaping LKCoreLocationHandler) {
         self.handler = handler
     }
 }

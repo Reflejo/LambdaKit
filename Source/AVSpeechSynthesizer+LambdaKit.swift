@@ -46,7 +46,6 @@ private var associatedEventHandle: UInt8 = 0
 /// }
 /// ```
 extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
-
     private var closuresWrapper: ClosuresWrapper {
         get {
             if let wrapper = objc_getAssociatedObject(self, &associatedEventHandle) as? ClosuresWrapper {
@@ -106,57 +105,57 @@ extension AVSpeechSynthesizer: AVSpeechSynthesizerDelegate {
     /// - parameter utterance: An AVSpeechUtterance object containing text to be spoken.
     /// - parameter closure:   Closure to be called when speech finishes speaking. This won't be called if the
     ///                        synthesizer is paused or canceled.
-    public func speakUtterance(utterance: AVSpeechUtterance,
-        didFinishUtterance closure: LKDidFinishSpeechUtterance)
+    public func speakUtterance(_ utterance: AVSpeechUtterance,
+        didFinishUtterance closure: @escaping LKDidFinishSpeechUtterance)
     {
         self.didFinishSpeechUtterance = closure
-        self.speakUtterance(utterance)
+        self.speak(utterance)
     }
 
     // MARK: AVSpeechSynthesizerDelegate implementation
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
-        didStartSpeechUtterance utterance: AVSpeechUtterance)
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+        didStart utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.didStartSpeechUtterance?(synthesizer, utterance)
     }
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
-        didFinishSpeechUtterance utterance: AVSpeechUtterance)
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+        didFinish utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.didFinishSpeechUtterance?(synthesizer, utterance)
     }
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
-        didPauseSpeechUtterance utterance: AVSpeechUtterance)
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+        didPause utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.didPauseSpeechUtterance?(synthesizer, utterance)
     }
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
-        didContinueSpeechUtterance utterance: AVSpeechUtterance)
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+        didContinue utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.didContinueSpeechUtterance?(synthesizer, utterance)
     }
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
-        didCancelSpeechUtterance utterance: AVSpeechUtterance)
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+        didCancel utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.didCancelSpeechUtterance?(synthesizer, utterance)
     }
 
-    public func speechSynthesizer(synthesizer: AVSpeechSynthesizer,
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
         willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance)
     {
         self.closuresWrapper.willSpeakRangeOfSpeechString?(synthesizer, characterRange, utterance)
     }
 }
 
-private final class ClosuresWrapper {
-    private var didStartSpeechUtterance: LKDidStartSpeechUtterance?
-    private var didFinishSpeechUtterance: LKDidFinishSpeechUtterance?
-    private var didPauseSpeechUtterance: LKDidPauseSpeechUtterance?
-    private var didContinueSpeechUtterance: LKDidContinueSpeechUtterance?
-    private var didCancelSpeechUtterance: LKDidCancelSpeechUtterance?
-    private var willSpeakRangeOfSpeechString: LKWillSpeakRangeOfSpeechString?
+fileprivate final class ClosuresWrapper {
+    fileprivate var didStartSpeechUtterance: LKDidStartSpeechUtterance?
+    fileprivate var didFinishSpeechUtterance: LKDidFinishSpeechUtterance?
+    fileprivate var didPauseSpeechUtterance: LKDidPauseSpeechUtterance?
+    fileprivate var didContinueSpeechUtterance: LKDidContinueSpeechUtterance?
+    fileprivate var didCancelSpeechUtterance: LKDidCancelSpeechUtterance?
+    fileprivate var willSpeakRangeOfSpeechString: LKWillSpeakRangeOfSpeechString?
 }
