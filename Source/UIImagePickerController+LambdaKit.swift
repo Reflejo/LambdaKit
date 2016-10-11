@@ -78,13 +78,13 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 
     // MARK: UIImagePickerControllerDelegate implementation
 
-    public func imagePickerController(_ picker: UIImagePickerController,
+    open func imagePickerController(_ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : Any])
     {
         self.closuresWrapper.didFinishPickingMedia?(picker, info)
     }
 
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    open func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.closuresWrapper.didCancel?(picker)
     }
 }
