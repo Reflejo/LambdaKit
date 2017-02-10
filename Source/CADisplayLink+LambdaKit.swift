@@ -71,7 +71,7 @@ extension CADisplayLink {
             return
         }
 
-        if closureWrapper.startTime < DBL_EPSILON {
+        if closureWrapper.startTime < .ulpOfOne {
             displayLink.closureWrapper?.startTime = displayLink.timestamp
         }
 
