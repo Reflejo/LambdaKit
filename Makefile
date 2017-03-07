@@ -1,4 +1,4 @@
-PROJECT?=LambdaKit.xcodeproj
+PROJECT ?= LambdaKit.xcodeproj
 
 .PHONY: build project
 
