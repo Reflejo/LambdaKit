@@ -56,17 +56,20 @@ extension CADisplayLink {
     ///
     /// - parameter duration: The duration in seconds.
     /// - parameter handler:  The closure to execute for every tick.
-    public class func runFor(_ duration: CFTimeInterval, handler: @escaping LKDisplayLinkClosure) {
+    public static func runFor(_ duration: CFTimeInterval,
+                              handler: @escaping LKDisplayLinkClosure) -> CADisplayLink
+    {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))
 
         displayLink.closureWrapper = ClosuresWrapper(handler: handler, duration: duration)
         displayLink.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+        return displayLink
     }
 
     // MARK: Private methods
 
     @objc
-    private class func tick(_ displayLink: CADisplayLink) {
+    private static func tick(_ displayLink: CADisplayLink) {
         guard let closureWrapper = displayLink.closureWrapper else {
             return
         }
