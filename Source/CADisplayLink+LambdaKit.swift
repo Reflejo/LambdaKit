@@ -83,6 +83,7 @@ extension CADisplayLink {
         if elapsed >= duration {
             displayLink.closureWrapper = nil
             displayLink.invalidate()
+            closureWrapper.handler(1.0)
         } else {
             closureWrapper.handler(elapsed / duration)
         }
