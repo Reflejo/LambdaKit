@@ -91,7 +91,7 @@ extension CLLocationManager: CLLocationManagerDelegate {
     /// Request the current location which is reported in the completion handler.
     ///
     /// - parameter completion: A closure that will be called with the device's current location.
-    @available(iOS 9, watchOS 2, *)
+    @available(iOS 9, *)
     public func requestLocation(_ completion: @escaping LKCoreLocationHandler) {
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.delegate = self
