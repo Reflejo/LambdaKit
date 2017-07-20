@@ -62,7 +62,7 @@ extension UIControl {
 
         set {
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
-                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                                     objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
@@ -70,7 +70,7 @@ extension UIControl {
     ///
     /// - parameter controlEvents: A bitmask specifying the control events for which the action message is
     ///                            sent.
-    /// - parameter handler:       A block representing an action message, with an argument for the sender.
+    /// - parameter handler:       A closure representing an action message, with an argument for the sender.
     public func addEventHandler(forControlEvents controlEvents: UIControlEvents,
                                 handler: @escaping LKControlHandler)
     {
@@ -99,8 +99,20 @@ extension UIControl {
             self.events?[event] = nil
             for wrapper in wrappers {
                 self.removeTarget(wrapper, action: #selector(ControlWrapper.invoke(_:)),
-                    for: UIControlEvents(rawValue: event))
+                                  for: UIControlEvents(rawValue: event))
             }
         }
+    }
+
+    /// Convenience function for setting a control's handler. Removes all other handlers for the provided
+    /// events.
+    ///
+    /// - parameter controlEvents: A bitmask specifying the control events that the handler will replace.
+    /// - parameter handler:       A closure representing an action message, with an argument for the sender.
+    public func setEventHandler(forControlEvents controlEvents: UIControlEvents,
+                                handler: @escaping LKControlHandler)
+    {
+        self.removeEventHandlers(forControlEvents: controlEvents)
+        self.addEventHandler(forControlEvents: controlEvents, handler: handler)
     }
 }
