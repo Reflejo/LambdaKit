@@ -51,6 +51,12 @@ extension CADisplayLink {
         }
     }
 
+    /// Invalidates the current CADisplayLink but calling the handler one more time with progress = 1.0.
+    public func completeAndInvalidate() {
+        self.closureWrapper?.handler(1.0)
+        self.invalidate()
+    }
+
     /// Creates a DisplayLink and add it to the main run loop. The displayLink will execute for the given
     /// duration in seconds.
     ///
