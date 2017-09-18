@@ -62,6 +62,7 @@ extension CADisplayLink {
     ///
     /// - parameter duration: The duration in seconds.
     /// - parameter handler:  The closure to execute for every tick.
+    @discardableResult
     public static func runFor(_ duration: CFTimeInterval,
                               handler: @escaping LKDisplayLinkClosure) -> CADisplayLink
     {
