@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.watchos.deployment_target = '3.0'
 
-  s.ios.source_files = 'Source/*.swift'
-  s.watchos.source_files = 'Source/NSObject*.swift', 'Source/CLLocationManager*.swift'
+  s.ios.source_files = 'Sources/LambdaKit/*.swift'
+  s.watchos.source_files = 'Sources/LambdaKit/NSObject*.swift', 'Source/LambdaKit/CLLocationManager*.swift'
 end

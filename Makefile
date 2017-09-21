@@ -3,7 +3,7 @@ PROJECT ?= LambdaKit.xcodeproj
 .PHONY: build project
 
 build: $(PROJECT)
-	xcodebuild -project LambdaKit.xcodeproj -configuration Release clean build
+	xcodebuild -project LambdaKit.xcodeproj -configuration Release clean build -scheme LambdaKit-Package
 
 project: $(PROJECT)
 
