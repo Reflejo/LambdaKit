@@ -54,6 +54,7 @@ extension CADisplayLink {
     /// Invalidates the current CADisplayLink but calling the handler one more time with progress = 1.0.
     public func completeAndInvalidate() {
         self.closureWrapper?.handler(1.0)
+        self.closureWrapper = nil
         self.invalidate()
     }
 
