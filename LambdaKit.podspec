@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'LambdaKit'
-  s.version = '0.2.4'
+  s.version = '0.2.5'
   s.license = 'MIT'
   s.summary = 'Closures on most used UIKit methods'
   s.homepage = 'https://github.com/Reflejo/LambdaKit'
@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '3.0'
 
   s.ios.source_files = 'Sources/LambdaKit/*.swift'
-  s.watchos.source_files = 'Sources/LambdaKit/NSObject*.swift', 'Source/LambdaKit/CLLocationManager*.swift'
+  s.watchos.source_files = 'Sources/LambdaKit/NSObject*.swift', 'Sources/LambdaKit/CLLocationManager*.swift'
 end
