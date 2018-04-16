@@ -1,6 +1,6 @@
 //
 //  WKWebView+LamdaKit.swift
-//  Created by Pau Perez-Martinez on 5/16/18.
+//  Created by Pau Perez-Martinez on 4/16/18.
 //
 //  Copyright (c) 2018 Lyft (http://lyft.com)
 //
@@ -31,33 +31,34 @@ private var associatedEventHandle: UInt8 = 0
 
 // MARK: - WKNavigationDelegate constants
 
-typealias kDecidePolicyForAction = (WKWebView, WKNavigationAction,
-    ((WKNavigationActionPolicy) -> Void)) -> Void
-typealias kDecidePolicyForResponse = (WKWebView, WKNavigationResponse,
-    ((WKNavigationResponsePolicy) -> Void)) -> Void
-typealias kDidStartProvisionalNavigation = (WKWebView, WKNavigation) -> Void
-typealias kDidReceiveServerRedirectForProvisionalNavigation = (WKWebView, WKNavigation) -> Void
-typealias kDidFailProvisionalNavigation = (WKWebView, WKNavigation, Error) -> Void
-typealias kDidCommit = (WKWebView, WKNavigation) -> Void
-typealias kDidFinish = (WKWebView, WKNavigation) -> Void
-typealias kDidFail = (WKWebView, WKNavigation, Error) -> Void
-typealias kDidReceiveChallenge = (WKWebView, URLAuthenticationChallenge,
-    ((URLSession.AuthChallengeDisposition, URLCredential?) -> Void)) -> Void
-typealias kWebViewContentProcessDidTerminate = (WKWebView) -> Void
+public typealias LKDecidePolicyForAction =
+    (WKWebView, WKNavigationAction, ((WKNavigationActionPolicy) -> Void)) -> Void
+public typealias LKDecidePolicyForResponse =
+    (WKWebView, WKNavigationResponse, ((WKNavigationResponsePolicy) -> Void)) -> Void
+public typealias LKDidStartProvisionalNavigation = (WKWebView, WKNavigation) -> Void
+public typealias LKDidReceiveServerRedirectForProvisionalNavigation = (WKWebView, WKNavigation) -> Void
+public typealias LKDidFailProvisionalNavigation = (WKWebView, WKNavigation, Error) -> Void
+public typealias LKDidCommit = (WKWebView, WKNavigation) -> Void
+public typealias LKDidFinish = (WKWebView, WKNavigation) -> Void
+public typealias LKDidFail = (WKWebView, WKNavigation, Error) -> Void
+public typealias LKDidReceiveChallenge =
+    (WKWebView, URLAuthenticationChallenge, ((URLSession.AuthChallengeDisposition, URLCredential?) -> Void))
+    -> Void
+public typealias LKWebViewContentProcessDidTerminate = (WKWebView) -> Void
 
 // MARK: - WKUIDelegate constants
 
-typealias kCreateWebViewWith = (WKWebView, WKWebViewConfiguration, WKNavigationAction, WKWindowFeatures)
-    -> WKWebView?
-typealias kWebViewDidClose = (WKWebView) -> Void
-typealias kRunJavaScriptAlertPanelWithMessage = (WKWebView, String, WKFrameInfo, (() -> Void)) -> Void
-typealias kRunJavaScriptConfirmPanelWithMessage = (WKWebView, String, WKFrameInfo, ((Bool) -> Void)) -> Void
-typealias kRunJavaScriptTextInputPanelWithPrompt = (WKWebView, String, String?, WKFrameInfo,
-    ((String?) -> Void)) -> Void
-typealias kShouldPreviewElement = (WKWebView, WKPreviewElementInfo) -> Bool
-typealias kPreviewingViewControllerForElement = (WKWebView, WKPreviewElementInfo, [WKPreviewActionItem])
-    -> UIViewController?
-typealias kCommitPreviewingViewController = (WKWebView, UIViewController) -> Void
+public typealias LKCreateWebViewWith =
+    (WKWebView, WKWebViewConfiguration, WKNavigationAction, WKWindowFeatures) -> WKWebView?
+public typealias LKWebViewDidClose = (WKWebView) -> Void
+public typealias LKRunJavaScriptAlertPanelWithMessage = (WKWebView, String, WKFrameInfo, (() -> Void)) -> Void
+public typealias LKRunJavaScriptConfirmPanelWithMessage = (WKWebView, String, WKFrameInfo, ((Bool) -> Void)) -> Void
+public typealias LKRunJavaScriptTextInputPanelWithPrompt =
+    (WKWebView, String, String?, WKFrameInfo, ((String?) -> Void)) -> Void
+public typealias LKShouldPreviewElement = (WKWebView, WKPreviewElementInfo) -> Bool
+public typealias LKPreviewingViewControllerForElement =
+    (WKWebView, WKPreviewElementInfo, [WKPreviewActionItem]) -> UIViewController?
+public typealias LKCommitPreviewingViewController = (WKWebView, UIViewController) -> Void
 
 // MARK: - WKNavigationDelegate
 
@@ -85,61 +86,61 @@ extension WKWebView {
 
 extension WKWebView: WKNavigationDelegate {
     /// Decides whether to allow or cancel a navigation.
-    var decidePolicyForAction: kDecidePolicyForAction? {
+    public var decidePolicyForAction: kDecidePolicyForAction? {
         set { self.closuresWrapper.decidePolicyForAction = newValue }
         get { return self.closuresWrapper.decidePolicyForAction }
     }
 
     /// Decides whether to allow or cancel a navigation after its response is known.
-    var decidePolicyForResponse: kDecidePolicyForResponse? {
+    public var decidePolicyForResponse: kDecidePolicyForResponse? {
         set { self.closuresWrapper.decidePolicyForResponse = newValue }
         get { return self.closuresWrapper.decidePolicyForResponse }
     }
 
     /// Invoked when a main frame navigation starts.
-    var didStartProvisionalNavigation: kDidStartProvisionalNavigation? {
+    public var didStartProvisionalNavigation: kDidStartProvisionalNavigation? {
         set { self.closuresWrapper.didStartProvisionalNavigation = newValue }
         get { return self.closuresWrapper.didStartProvisionalNavigation }
     }
 
     /// Invoked when a server redirect is received for the main frame.
-    var didReceiveServerRedirectForProvisionalNavigation: kDidReceiveServerRedirectForProvisionalNavigation? {
+    public var didReceiveServerRedirectForProvisionalNavigation: kDidReceiveServerRedirectForProvisionalNavigation? {
         set { self.closuresWrapper.didReceiveServerRedirectForProvisionalNavigation = newValue }
         get { return self.closuresWrapper.didReceiveServerRedirectForProvisionalNavigation }
     }
 
     /// Invoked when an error occurs while starting to load data for the main frame.
-    var didFailProvisionalNavigation: kDidFailProvisionalNavigation? {
+    public var didFailProvisionalNavigation: kDidFailProvisionalNavigation? {
         set { self.closuresWrapper.didFailProvisionalNavigation = newValue }
         get { return self.closuresWrapper.didFailProvisionalNavigation }
     }
 
     /// Invoked when content starts arriving for the main frame.
-    var didCommit: kDidCommit? {
+    public var didCommit: kDidCommit? {
         set { self.closuresWrapper.didCommit = newValue }
         get { return self.closuresWrapper.didCommit }
     }
 
     /// Invoked when a main frame navigation completes.
-    var didFinish: kDidFinish? {
+    public var didFinish: kDidFinish? {
         set { self.closuresWrapper.didFinish = newValue }
         get { return self.closuresWrapper.didFinish }
     }
 
     /// Invoked when an error occurs during a committed main frame navigation.
-    var didFail: kDidFail? {
+    public var didFail: kDidFail? {
         set { self.closuresWrapper.didFail = newValue }
         get { return self.closuresWrapper.didFail }
     }
 
     /// Invoked when the web view needs to respond to an authentication challenge.
-    var didReceiveChallenge: kDidReceiveChallenge? {
+    public var didReceiveChallenge: kDidReceiveChallenge? {
         set { self.closuresWrapper.didReceiveChallenge = newValue }
         get { return self.closuresWrapper.didReceiveChallenge }
     }
 
     /// Invoked when the web view's web content process is terminated.
-    var webViewContentProcessDidTerminate: kWebViewContentProcessDidTerminate? {
+    public var webViewContentProcessDidTerminate: kWebViewContentProcessDidTerminate? {
         set { self.closuresWrapper.webViewContentProcessDidTerminate = newValue }
         get { return self.closuresWrapper.webViewContentProcessDidTerminate }
     }
@@ -168,8 +169,8 @@ extension WKWebView: WKNavigationDelegate {
         self.didStartProvisionalNavigation?(webView, navigation)
     }
 
-    public func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation
-        navigation: WKNavigation!)
+    public func webView(_ webView: WKWebView,
+                        didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!)
     {
         self.didReceiveServerRedirectForProvisionalNavigation?(webView, navigation)
     }
@@ -192,9 +193,9 @@ extension WKWebView: WKNavigationDelegate {
         self.didFail?(webView, navigation, error)
     }
 
-    public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
-                        completionHandler:
-        @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+    public func webView(
+        _ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
+        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
     {
         if let handler = self.didReceiveChallenge {
             handler(webView, challenge, completionHandler)
@@ -212,56 +213,56 @@ extension WKWebView: WKNavigationDelegate {
 
 extension WKWebView: WKUIDelegate {
     /// Creates a new web view.
-    var createWebViewWith: kCreateWebViewWith? {
+    public var createWebViewWith: kCreateWebViewWith? {
         set { self.closuresWrapper.createWebViewWith = newValue }
         get { return self.closuresWrapper.createWebViewWith }
     }
 
     /// Notifies your app that the DOM window object's close() method completed successfully.
-    var webViewDidClose: kWebViewDidClose? {
+    public var webViewDidClose: kWebViewDidClose? {
         set { self.closuresWrapper.webViewDidClose = newValue }
         get { return self.closuresWrapper.webViewDidClose }
     }
 
     /// Displays a JavaScript alert panel.
-    var runJavaScriptAlertPanelWithMessage: kRunJavaScriptAlertPanelWithMessage? {
+    public var runJavaScriptAlertPanelWithMessage: kRunJavaScriptAlertPanelWithMessage? {
         set { self.closuresWrapper.runJavaScriptAlertPanelWithMessage = newValue }
         get { return self.closuresWrapper.runJavaScriptAlertPanelWithMessage }
     }
 
     /// Displays a JavaScript confirm panel.
-    var runJavaScriptConfirmPanelWithMessage: kRunJavaScriptConfirmPanelWithMessage? {
+    public var runJavaScriptConfirmPanelWithMessage: kRunJavaScriptConfirmPanelWithMessage? {
         set { self.closuresWrapper.runJavaScriptConfirmPanelWithMessage = newValue }
         get { return self.closuresWrapper.runJavaScriptConfirmPanelWithMessage }
     }
 
     /// Displays a JavaScript text input panel.
-    var runJavaScriptTextInputPanelWithPrompt: kRunJavaScriptTextInputPanelWithPrompt? {
+    public var runJavaScriptTextInputPanelWithPrompt: kRunJavaScriptTextInputPanelWithPrompt? {
         set { self.closuresWrapper.runJavaScriptTextInputPanelWithPrompt = newValue }
         get { return self.closuresWrapper.runJavaScriptTextInputPanelWithPrompt }
     }
 
     /// Allows your app to determine whether or not the given element should show a preview.
-    var shouldPreviewElement: kShouldPreviewElement? {
+    public var shouldPreviewElement: kShouldPreviewElement? {
         set { self.closuresWrapper.shouldPreviewElement = newValue }
         get { return self.closuresWrapper.shouldPreviewElement }
     }
 
     /// Allows your app to provide a custom view controller to show when the given element is peeked.
-    var previewingViewControllerForElement: kPreviewingViewControllerForElement? {
+    public var previewingViewControllerForElement: kPreviewingViewControllerForElement? {
         set { self.closuresWrapper.previewingViewControllerForElement = newValue }
         get { return self.closuresWrapper.previewingViewControllerForElement }
     }
 
     /// Allows your app to pop to the view controller it created.
-    var commitPreviewingViewController: kCommitPreviewingViewController? {
+    public var commitPreviewingViewController: kCommitPreviewingViewController? {
         set { self.closuresWrapper.commitPreviewingViewController = newValue }
         get { return self.closuresWrapper.commitPreviewingViewController }
     }
 
-    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
-                        for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures)
-        -> WKWebView?
+    public func webView(
+        _ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+        for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView?
     {
         return self.createWebViewWith?(webView, configuration, navigationAction, windowFeatures)
     }
@@ -301,22 +302,20 @@ extension WKWebView: WKUIDelegate {
         }
     }
 
-    public func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo)
-        -> Bool
+    public func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo) -> Bool
     {
         return self.shouldPreviewElement?(webView, elementInfo) ?? true
     }
 
     public func webView(_ webView: WKWebView,
                         previewingViewControllerForElement elementInfo: WKPreviewElementInfo,
-                        defaultActions previewActions: [WKPreviewActionItem])
-        -> UIViewController?
+                        defaultActions previewActions: [WKPreviewActionItem]) -> UIViewController?
     {
         return self.previewingViewControllerForElement?(webView, elementInfo, previewActions)
     }
 
-    public func webView(_ webView: WKWebView, commitPreviewingViewController
-        previewingViewController: UIViewController)
+    public func webView(_ webView: WKWebView,
+                        commitPreviewingViewController previewingViewController: UIViewController)
     {
         self.commitPreviewingViewController?(webView, previewingViewController)
     }
@@ -326,24 +325,23 @@ extension WKWebView: WKUIDelegate {
 
 private final class ClosuresWrapper {
     /// WKNavigationDelegate
-    fileprivate var decidePolicyForAction: kDecidePolicyForAction?
-    fileprivate var decidePolicyForResponse: kDecidePolicyForResponse?
-    fileprivate var didStartProvisionalNavigation: kDidStartProvisionalNavigation?
-    fileprivate var
-    didReceiveServerRedirectForProvisionalNavigation: kDidReceiveServerRedirectForProvisionalNavigation?
-    fileprivate var didFailProvisionalNavigation: kDidFailProvisionalNavigation?
-    fileprivate var didCommit: kDidCommit?
-    fileprivate var didFinish: kDidFinish?
-    fileprivate var didFail: kDidFail?
-    fileprivate var didReceiveChallenge: kDidReceiveChallenge?
-    fileprivate var webViewContentProcessDidTerminate: kWebViewContentProcessDidTerminate?
+    var decidePolicyForAction: kDecidePolicyForAction?
+    var decidePolicyForResponse: kDecidePolicyForResponse?
+    var didStartProvisionalNavigation: kDidStartProvisionalNavigation?
+    var didReceiveServerRedirectForProvisionalNavigation: kDidReceiveServerRedirectForProvisionalNavigation?
+    var didFailProvisionalNavigation: kDidFailProvisionalNavigation?
+    var didCommit: kDidCommit?
+    var didFinish: kDidFinish?
+    var didFail: kDidFail?
+    var didReceiveChallenge: kDidReceiveChallenge?
+    var webViewContentProcessDidTerminate: kWebViewContentProcessDidTerminate?
     /// WKUIDelegate
-    fileprivate var createWebViewWith: kCreateWebViewWith?
-    fileprivate var webViewDidClose: kWebViewDidClose?
-    fileprivate var runJavaScriptAlertPanelWithMessage: kRunJavaScriptAlertPanelWithMessage?
-    fileprivate var runJavaScriptConfirmPanelWithMessage: kRunJavaScriptConfirmPanelWithMessage?
-    fileprivate var runJavaScriptTextInputPanelWithPrompt: kRunJavaScriptTextInputPanelWithPrompt?
-    fileprivate var shouldPreviewElement: kShouldPreviewElement?
-    fileprivate var previewingViewControllerForElement: kPreviewingViewControllerForElement?
-    fileprivate var commitPreviewingViewController: kCommitPreviewingViewController?
+    var createWebViewWith: kCreateWebViewWith?
+    var webViewDidClose: kWebViewDidClose?
+    var runJavaScriptAlertPanelWithMessage: kRunJavaScriptAlertPanelWithMessage?
+    var runJavaScriptConfirmPanelWithMessage: kRunJavaScriptConfirmPanelWithMessage?
+    var runJavaScriptTextInputPanelWithPrompt: kRunJavaScriptTextInputPanelWithPrompt?
+    var shouldPreviewElement: kShouldPreviewElement?
+    var previewingViewControllerForElement: kPreviewingViewControllerForElement?
+    var commitPreviewingViewController: kCommitPreviewingViewController?
 }
