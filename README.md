@@ -82,6 +82,88 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
+### WKWebView
+
+Closure support for MKWebView navigation and UI delegates.
+
+```swift
+let webView = WKWebView()
+webView.shouldStartLoad = { webview, request, type in
+    println("shouldStartLoad: \(request)")
+    return true
+}
+
+webView.didStartProvisionalNavigation = { webview in
+    println("didStartLoad: \(webview)")
+}
+
+webView.didFinish = { webview in
+    println("didFinishLoad \(webview)")
+}
+
+webView.didFailProvisionalNavigation = { webview, error in
+    println("didFinishWithError \(error)")
+}
+
+webView.didFail = { webView, error in
+    println("didFinishWithError \(error)")
+}
+
+webView.decidePolicyForAction = { webview, action, policyCompletion in
+    policyCompletion(.allow)
+}
+
+webView.decidePolicyForResponse = { webview, action, policyCompletion in
+    policyCompletion(.allow)
+}
+
+webView.didReceiveServerRedirectForProvisionalNavigation = { webView, navigation in
+    println("didReceiveServerRedirectForProvisionalNavigation \(webview)")
+}
+
+webView.didCommit = { webView, navigation in
+    println("didCommit \(webview)")
+}
+
+webView.didReceiveChallenge = { webView, challenge, completion in
+    completion(.useCredential, URLCredential(trust: ...))
+}
+
+webView.webViewContentProcessDidTerminate = { webView in
+    println("webViewContentProcessDidTerminate \(webview)")
+}
+
+webView.createWebViewWith = { webview, configuration, action, features in
+    return webview
+}
+
+webView.webViewDidClose = { webview in
+    println("webViewDidClose \(webview)")
+}
+
+webView.runJavaScriptAlertPanelWithMessage = { webview, message, frameInfo, completion in
+    completion()
+}
+
+webView.runJavaScriptConfirmPanelWithMessage = { webview, message, frameInfo, completion in
+    completion(true)
+}
+
+webView.shouldPreviewElement = { webview, elementInfo in
+    println("shouldPreviewElement \(webview)")
+    return true
+}
+
+webView.previewingViewControllerForElement = { webview, elementInfo, actions in
+    return nil
+}
+
+webView.commitPreviewingViewController = { webview, viewController in
+    println("commitPreviewingViewController \(webview)")
+}
+
+```
+
 ### UIImagePickerController
 
 UIImagePickerController with closure callback(s).
