@@ -82,6 +82,40 @@ webView.didFinishWithError = { webView, error in
 }
 ```
 
+### WKWebView
+
+Closure support for WKWebView navigation and UI delegates.
+
+```swift
+let webView = WKWebView()
+
+webView.didStartProvisionalNavigation = { webview in
+    print("didStartProvisionalNavigation: \(webview)")
+}
+
+webView.didFinish = { webview in
+    print("didFinish \(webview)")
+}
+
+webView.didFailProvisionalNavigation = { webview, error in
+    print("didFailProvisionalNavigation with error \(error)")
+}
+
+webView.didFail = { webView, error in
+    print("didFail with error \(error)")
+}
+
+webView.didReceiveChallenge = { webView, challenge, completion in
+    completion(.useCredential, URLCredential(trust: ...))
+}
+
+webView.shouldPreviewElement = { webview, elementInfo in
+    print("shouldPreviewElement \(webview)")
+    return true
+}
+
+```
+
 ### UIImagePickerController
 
 UIImagePickerController with closure callback(s).
