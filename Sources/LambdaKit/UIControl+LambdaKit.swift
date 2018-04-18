@@ -71,7 +71,7 @@ extension UIControl {
     /// - parameter controlEvents: A bitmask specifying the control events for which the action message is
     ///                            sent.
     /// - parameter handler:       A closure representing an action message, with an argument for the sender.
-    public func addEventHandler(forControlEvents controlEvents: UIControlEvents,
+    public func addEventHandler(forControlEvents controlEvents: UIControlEvents = .touchUpInside,
                                 handler: @escaping LKControlHandler)
     {
         let target = ControlWrapper(handler: handler, events: controlEvents)
@@ -109,7 +109,7 @@ extension UIControl {
     ///
     /// - parameter controlEvents: A bitmask specifying the control events that the handler will replace.
     /// - parameter handler:       A closure representing an action message, with an argument for the sender.
-    public func setEventHandler(forControlEvents controlEvents: UIControlEvents,
+    public func setEventHandler(forControlEvents controlEvents: UIControlEvents = .touchUpInside,
                                 handler: @escaping LKControlHandler)
     {
         self.removeEventHandlers(forControlEvents: controlEvents)
