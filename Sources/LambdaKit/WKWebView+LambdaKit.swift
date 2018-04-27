@@ -77,6 +77,7 @@ extension WKWebView {
 
         set {
             self.uiDelegate = self
+            self.navigationDelegate = self
             objc_setAssociatedObject(self, &associatedEventHandle, newValue,
                                      objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
