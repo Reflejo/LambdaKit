@@ -214,6 +214,18 @@ locationManager.starUpdatingLocation { location in
 locationManager.stopUpdatingLocationHandler()
 ```
 
+### UIActivityItemProvider
+
+Closure implementations for common UIActivityItemProviders.
+
+```swift
+let urlProvider = ActivityURLProvider { _, activityType in
+    return URL(string: "https://example.com")
+}
+
+let activityViewController = UIActivityViewController(activityItems: [urlProvider], applicationActivities: nil)
+```
+
 **WARNING: You cannot use closures *and* set a delegate at the same time. Setting a delegate will prevent
 closures for being called and setting a closure will overwrite the delegate property.**
 
