@@ -35,12 +35,12 @@ public typealias LKDecidePolicyForAction =
     (WKWebView, WKNavigationAction, ((WKNavigationActionPolicy) -> Void)) -> Void
 public typealias LKDecidePolicyForResponse =
     (WKWebView, WKNavigationResponse, ((WKNavigationResponsePolicy) -> Void)) -> Void
-public typealias LKDidStartProvisionalNavigation = (WKWebView, WKNavigation) -> Void
-public typealias LKDidReceiveServerRedirectForProvisionalNavigation = (WKWebView, WKNavigation) -> Void
-public typealias LKDidFailProvisionalNavigation = (WKWebView, WKNavigation, Error) -> Void
-public typealias LKDidCommit = (WKWebView, WKNavigation) -> Void
-public typealias LKDidFinish = (WKWebView, WKNavigation) -> Void
-public typealias LKDidFail = (WKWebView, WKNavigation, Error) -> Void
+public typealias LKDidStartProvisionalNavigation = (WKWebView, WKNavigation?) -> Void
+public typealias LKDidReceiveServerRedirectForProvisionalNavigation = (WKWebView, WKNavigation?) -> Void
+public typealias LKDidFailProvisionalNavigation = (WKWebView, WKNavigation?, Error) -> Void
+public typealias LKDidCommit = (WKWebView, WKNavigation?) -> Void
+public typealias LKDidFinish = (WKWebView, WKNavigation?) -> Void
+public typealias LKDidFail = (WKWebView, WKNavigation?, Error) -> Void
 public typealias LKDidReceiveChallenge =
     (WKWebView, URLAuthenticationChallenge, ((URLSession.AuthChallengeDisposition, URLCredential?) -> Void))
     -> Void
