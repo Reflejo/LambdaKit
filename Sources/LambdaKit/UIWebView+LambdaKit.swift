@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public typealias LKShouldStartClosure = (UIWebView, URLRequest, UIWebViewNavigationType) -> Bool
+public typealias LKShouldStartClosure = (UIWebView, URLRequest, UIWebView.NavigationType) -> Bool
 public typealias LKDidStartClosure = (UIWebView) -> Void
 public typealias LKDidFinishLoadClosure = (UIWebView) -> Void
 public typealias LKDidFinishWithErrorClosure = (UIWebView, NSError) -> Void
@@ -104,7 +104,7 @@ extension UIWebView: UIWebViewDelegate {
     // MARK: UIWebViewDelegate implementation
 
     public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest,
-        navigationType: UIWebViewNavigationType) -> Bool
+        navigationType: UIWebView.NavigationType) -> Bool
     {
         return self.shouldStartLoad?(webView, request, navigationType) ?? true
     }

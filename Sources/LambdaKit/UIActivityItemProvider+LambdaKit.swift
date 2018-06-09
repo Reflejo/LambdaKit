@@ -26,14 +26,14 @@ public class ActivityClosureProvider<T>: UIActivityItemProvider {
 
     public override func activityViewController(
         _ activityViewController: UIActivityViewController,
-        itemForActivityType activityType: UIActivityType?) -> Any?
+        itemForActivityType activityType: UIActivity.ActivityType?) -> Any?
     {
         return (activityType?.rawValue).flatMap { self.itemClosure(activityViewController, $0) }
     }
 
     public override func activityViewController(
         _ activityViewController: UIActivityViewController,
-        subjectForActivityType activityType: UIActivityType?) -> String
+        subjectForActivityType activityType: UIActivity.ActivityType?) -> String
     {
         return self.subjectClosure?(activityViewController, activityType?.rawValue) ?? ""
     }

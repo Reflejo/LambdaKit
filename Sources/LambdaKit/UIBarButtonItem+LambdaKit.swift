@@ -57,7 +57,7 @@ extension UIBarButtonItem {
     /// - parameter handler: The closure which handles button touches.
     ///
     /// - returns: An initialized instance of UIBarButtonItem.
-    public convenience init(image: UIImage?, style: UIBarButtonItemStyle,
+    public convenience init(image: UIImage?, style: UIBarButtonItem.Style,
                             handler: @escaping LKBarButtonHandler)
     {
         self.init(image: image, style: style, target: nil, action: #selector(UIBarButtonItem.handleAction))

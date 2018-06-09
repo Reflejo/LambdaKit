@@ -30,10 +30,10 @@ public typealias LKControlHandler = (_ sender: UIControl) -> Void
 private var associatedEventHandle: UInt8 = 0
 
 fileprivate final class ControlWrapper {
-    fileprivate var controlEvents: UIControlEvents
+    fileprivate var controlEvents: UIControl.Event
     fileprivate var handler: LKControlHandler
 
-    fileprivate init(handler: @escaping LKControlHandler, events: UIControlEvents) {
+    fileprivate init(handler: @escaping LKControlHandler, events: UIControl.Event) {
         self.handler = handler
         self.controlEvents = events
     }
@@ -71,7 +71,7 @@ extension UIControl {
     /// - parameter controlEvents: A bitmask specifying the control events for which the action message is
     ///                            sent.
     /// - parameter handler:       A closure representing an action message, with an argument for the sender.
-    public func addEventHandler(forControlEvents controlEvents: UIControlEvents = .touchUpInside,
+    public func addEventHandler(forControlEvents controlEvents: UIControl.Event = UIControl.Event.touchUpInside,
                                 handler: @escaping LKControlHandler)
     {
         let target = ControlWrapper(handler: handler, events: controlEvents)
@@ -90,7 +90,7 @@ extension UIControl {
     ///
     /// - parameter controlEvents: A bitmask specifying the control events for which the handlers will be
     ///                            removed.
-    public func removeEventHandlers(forControlEvents controlEvents: UIControlEvents? = nil) {
+    public func removeEventHandlers(forControlEvents controlEvents: UIControl.Event? = nil) {
         for (event, wrappers) in self.events ?? [:] {
             if controlEvents != nil && (event & controlEvents!.rawValue != controlEvents!.rawValue) {
                 continue
@@ -99,7 +99,7 @@ extension UIControl {
             self.events?[event] = nil
             for wrapper in wrappers {
                 self.removeTarget(wrapper, action: #selector(ControlWrapper.invoke(_:)),
-                                  for: UIControlEvents(rawValue: event))
+                                  for: UIControl.Event(rawValue: event))
             }
         }
     }
@@ -109,7 +109,7 @@ extension UIControl {
     ///
     /// - parameter controlEvents: A bitmask specifying the control events that the handler will replace.
     /// - parameter handler:       A closure representing an action message, with an argument for the sender.
-    public func setEventHandler(forControlEvents controlEvents: UIControlEvents = .touchUpInside,
+    public func setEventHandler(forControlEvents controlEvents: UIControl.Event = UIControl.Event.touchUpInside,
                                 handler: @escaping LKControlHandler)
     {
         self.removeEventHandlers(forControlEvents: controlEvents)

@@ -78,8 +78,9 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 
     // MARK: UIImagePickerControllerDelegate implementation
 
-    open func imagePickerController(_ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [String : Any])
+    open func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
     {
         self.closuresWrapper.didFinishPickingMedia?(picker, info)
     }
