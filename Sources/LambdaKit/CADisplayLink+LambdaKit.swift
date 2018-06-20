@@ -70,7 +70,7 @@ extension CADisplayLink {
         let displayLink = CADisplayLink(target: self, selector: #selector(CADisplayLink.tick(_:)))
 
         displayLink.closureWrapper = ClosuresWrapper(handler: handler, duration: duration)
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
+        displayLink.add(to: RunLoop.main, forMode: .default)
         return displayLink
     }
 
