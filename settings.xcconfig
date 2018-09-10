@@ -13,6 +13,7 @@ APPLICATION_EXTENSION_API_ONLY = YES
 
 // The base SDK to use (if no version is specified, the latest is assumed)
 SDKROOT = iphoneos
+IPHONEOS_DEPLOYMENT_TARGET = 10.0
 
 // Supported device families (1 is iPhone, 2 is iPad)
 SUPPORTED_PLATFORMS = iphonesimulator iphoneos
