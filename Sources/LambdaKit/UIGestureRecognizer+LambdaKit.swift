@@ -24,7 +24,7 @@
 
 import UIKit
 
-public typealias LKGestureHandler = (_ sender: UIGestureRecognizer, _ state: UIGestureRecognizerState) -> Void
+public typealias LKGestureHandler = (_ sender: UIGestureRecognizer, _ state: UIGestureRecognizer.State) -> Void
 
 // A global var to produce a unique address for the assoc object handle
 private var associatedEventHandle: UInt8 = 0

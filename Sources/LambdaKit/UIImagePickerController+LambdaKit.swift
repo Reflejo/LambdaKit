@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public typealias LKFinishPickingMediaClosure = (UIImagePickerController, [AnyHashable: Any]) -> Void
+public typealias LKFinishPickingMediaClosure = (UIImagePickerController, [UIImagePickerController.InfoKey: Any]) -> Void
 public typealias LKCancelClosure = (UIImagePickerController) -> Void
 
 // A global var to produce a unique address for the assoc object handle
@@ -78,8 +78,9 @@ extension UIImagePickerController: UIImagePickerControllerDelegate, UINavigation
 
     // MARK: UIImagePickerControllerDelegate implementation
 
-    open func imagePickerController(_ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [String : Any])
+    open func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
     {
         self.closuresWrapper.didFinishPickingMedia?(picker, info)
     }
