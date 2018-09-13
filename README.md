@@ -58,30 +58,6 @@ doubleTap.numberOfTapsRequired = 2
 self.addGestureRecognizer(doubleTap)
 ```
 
-### UIWebView
-
-Closure support for UIWebView delegate.
-
-```swift
-let webView = UIWebView()
-webView.shouldStartLoad = { webView, request, type in
-    println("shouldStartLoad: \(request)")
-    return true
-}
-
-webView.didStartLoad = { webView in
-    println("didStartLoad: \(webView)")
-}
-
-webView.didFinishLoad = { webView in
-    println("didFinishLoad \(webView)")
-}
-
-webView.didFinishWithError = { webView, error in
-    println("didFinishWithError \(error)")
-}
-```
-
 ### WKWebView
 
 Closure support for WKWebView navigation and UI delegates.
