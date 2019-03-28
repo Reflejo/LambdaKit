@@ -1,8 +1,11 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(
     name: "LambdaKit",
-    targets: [.target(name: "LambdaKit")],
-    swiftLanguageVersions: [.v4_2]
+    platforms: [
+        .iOS(.v10),
+        .watchOS(.v3),
+    ],
+    targets: [.target(name: "LambdaKit")]
 )
