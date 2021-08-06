@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.authors = { 'Martin Conte Mac Donell' => 'reflejo@gmail.com' }
   s.source = { :git => 'https://github.com/Reflejo/LambdaKit.git', :tag => s.version }
 
+  s.swift_version = '5.3'
   s.ios.deployment_target = '10.0'
   s.watchos.deployment_target = '3.0'
 
