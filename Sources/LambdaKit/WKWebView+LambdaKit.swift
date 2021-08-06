@@ -56,9 +56,6 @@ public typealias LKRunJavaScriptConfirmPanelWithMessage =
     (WKWebView, String, WKFrameInfo, ((Bool) -> Void)) -> Void
 public typealias LKRunJavaScriptTextInputPanelWithPrompt =
     (WKWebView, String, String?, WKFrameInfo, ((String?) -> Void)) -> Void
-public typealias LKShouldPreviewElement = (WKWebView, WKPreviewElementInfo) -> Bool
-public typealias LKPreviewingViewControllerForElement =
-    (WKWebView, WKPreviewElementInfo, [WKPreviewActionItem]) -> UIViewController?
 public typealias LKCommitPreviewingViewController = (WKWebView, UIViewController) -> Void
 
 // MARK: - WKNavigationDelegate
@@ -244,18 +241,6 @@ extension WKWebView: WKUIDelegate {
         get { return self.closuresWrapper.runJavaScriptTextInputPanelWithPrompt }
     }
 
-    /// Allows your app to determine whether or not the given element should show a preview.
-    public var shouldPreviewElement: LKShouldPreviewElement? {
-        set { self.closuresWrapper.shouldPreviewElement = newValue }
-        get { return self.closuresWrapper.shouldPreviewElement }
-    }
-
-    /// Allows your app to provide a custom view controller to show when the given element is peeked.
-    public var previewingViewControllerForElement: LKPreviewingViewControllerForElement? {
-        set { self.closuresWrapper.previewingViewControllerForElement = newValue }
-        get { return self.closuresWrapper.previewingViewControllerForElement }
-    }
-
     /// Allows your app to pop to the view controller it created.
     public var commitPreviewingViewController: LKCommitPreviewingViewController? {
         set { self.closuresWrapper.commitPreviewingViewController = newValue }
@@ -304,18 +289,6 @@ extension WKWebView: WKUIDelegate {
         }
     }
 
-    public func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo) -> Bool
-    {
-        return self.shouldPreviewElement?(webView, elementInfo) ?? true
-    }
-
-    public func webView(_ webView: WKWebView,
-                        previewingViewControllerForElement elementInfo: WKPreviewElementInfo,
-                        defaultActions previewActions: [WKPreviewActionItem]) -> UIViewController?
-    {
-        return self.previewingViewControllerForElement?(webView, elementInfo, previewActions)
-    }
-
     public func webView(_ webView: WKWebView,
                         commitPreviewingViewController previewingViewController: UIViewController)
     {
@@ -343,7 +316,5 @@ private final class ClosuresWrapper {
     var runJavaScriptAlertPanelWithMessage: LKRunJavaScriptAlertPanelWithMessage?
     var runJavaScriptConfirmPanelWithMessage: LKRunJavaScriptConfirmPanelWithMessage?
     var runJavaScriptTextInputPanelWithPrompt: LKRunJavaScriptTextInputPanelWithPrompt?
-    var shouldPreviewElement: LKShouldPreviewElement?
-    var previewingViewControllerForElement: LKPreviewingViewControllerForElement?
     var commitPreviewingViewController: LKCommitPreviewingViewController?
 }
