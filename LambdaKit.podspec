@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'LambdaKit'
-  s.version = '0.8.0'
+  s.version = '0.9.0'
   s.license = 'MIT'
   s.summary = 'Closures on most used UIKit methods'
   s.homepage = 'https://github.com/Reflejo/LambdaKit'
