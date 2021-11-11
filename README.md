@@ -146,11 +146,18 @@ composerViewController.setSubject("Test")
 
 MFMessageComposeViewController with closure callback.
 
-Note that when setting a completion handler, you don't have the responsability to dismiss the view controller
+Note that when setting a completion handler, you don't have the responsibility to dismiss the view controller
 anymore.
 
 ```swift
 let composeViewController = MFMessageComposeViewController { viewController, result in println("Done") }
+composerViewController.body = "test sms"
+```
+
+Set completionAfterDismissal to true if you want the completion handler to be invoked after the controller dismissal animation has been completed.
+
+```
+let composeViewController = MFMessageComposeViewController(completionAfterDismissal: true) { viewController, result in println("Done") }
 composerViewController.body = "test sms"
 ```
 

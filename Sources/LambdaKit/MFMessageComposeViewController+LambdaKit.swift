@@ -57,16 +57,35 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
         }
     }
 
+    private var completionAfterDismissal: Bool {
+        get {
+            return objc_getAssociatedObject(self, &associatedEventHandle) as? Bool ?? false
+        }
+
+        set {
+            objc_setAssociatedObject(self, &associatedEventHandle, newValue,
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
     /// Creates an instance of MFMessageComposeViewController and sets the completion closure to be used
     /// instead of the delegate. This closure is an analog for the
     /// messageComposeViewController:didFinishWithResult: method.
     ///
-    /// - parameter completion: A closure analog to messageComposeViewController:didFinishWithResult:.
+    /// - parameter completionAfterDismissal: Whether to invoke the completion closure before or
+    ///                                       after the controller has been dismissed.
+    /// - parameter completion:               A closure analog to
+    ///                                       messageComposeViewController:didFinishWithResult:.
+    ///                                       Invoked immediately after dismissing the controller.
     ///
     /// - returns: An initialized instance of MFMessageComposeViewController.
-    public convenience init(completion: @escaping LKMessageComposerHandler) {
+    public convenience init(
+        completionAfterDismissal: Bool = false,
+        completion: @escaping LKMessageComposerHandler)
+    {
         self.init()
 
+        self.completionAfterDismissal = completionAfterDismissal
         self.closureWrapper = ClosureWrapper(handler: completion)
         self.messageComposeDelegate = self
     }
@@ -76,10 +95,18 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     public func messageComposeViewController(_ controller: MFMessageComposeViewController,
         didFinishWith result: MessageComposeResult)
     {
-        controller.dismiss(animated: true, completion: nil)
-        self.closureWrapper?.handler(controller, result)
-        self.messageComposeDelegate = nil
-        self.closureWrapper = nil
+        let completion = {
+            self.closureWrapper?.handler(controller, result)
+            self.messageComposeDelegate = nil
+            self.closureWrapper = nil
+        }
+
+        if self.completionAfterDismissal {
+            controller.dismiss(animated: true, completion: completion)
+        } else {
+            controller.dismiss(animated: true)
+            completion()
+        }
     }
 }
 
