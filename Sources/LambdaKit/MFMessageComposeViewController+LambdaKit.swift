@@ -76,7 +76,8 @@ extension MFMessageComposeViewController: MFMessageComposeViewControllerDelegate
     ///                                       after the controller has been dismissed.
     /// - parameter completion:               A closure analog to
     ///                                       messageComposeViewController:didFinishWithResult:.
-    ///                                       Invoked immediately after dismissing the controller.
+    ///                                       If completionAfterDismissal = true, this is invoked after the dismissal animation has completed.
+    ///                                       If completionAfterDismissal is false, this is invoked immediately after the call to dismiss the controller.
     ///
     /// - returns: An initialized instance of MFMessageComposeViewController.
     public convenience init(
